@@ -42,6 +42,38 @@ var brewSchema= [
     menu: "http://www.urbanspoon.com/cities/2-chicago/restaurants/1757835-dryhop-brewers/menu",
     lat: "41.939351",
     lng: "-87.644205"
+  },
+  {
+    name: "Goose Island",
+    address: "1800 North Clybourn Avenue, Chicago, IL 60614",
+    phone: "(312) 915-0071",
+    menu: "http://www.gayot.com/restaurants/menu/goose-island-brewery-chicago-il-60614_5ch99343.html",
+    lat: "41.913696",
+    lng: "-87.653783"
+  },
+  {
+    name: "Begyle Brewing Company",
+    address: "1800 West Cuyler Avenue, Chicago, IL 60625",
+    phone: "(773) 661-6963",
+    menu: "none",
+    lat: "41.955284",
+    lng: "-87.674506"
+  },
+  {
+    name: "Piece Brewery & Pizzeria",
+    address: "1927 West North Avenue, Chicago, IL 60622",
+    phone: "(773) 772-4422",
+    menu: "http://www.viewmenu.com/piece/menu",
+    lat: "41.910327",
+    lng: "-87.676104"
+  },
+  {
+    name: "Lagunitas Brewing Company Chicago",
+    address: "1843 South Washtenaw Avenue, Chicago, IL 60608",
+    phone: "(707) 769-4495",
+    menu: "none",
+    lat: "41.857202",
+    lng: "-87.691988"
   }
 ];
 //SCHEMA NOTES

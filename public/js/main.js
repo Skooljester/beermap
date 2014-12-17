@@ -5,19 +5,14 @@ $(function() {
   var directionsService = new google.maps.DirectionsService();
   var currLoc;
   var markers= [];
-  function initialize(lat, lng) {
+  function initialize() {
     directionsDisplay = new google.maps.DirectionsRenderer();
-    var latlng= new google.maps.LatLng(lat, lng);
     var mapOptions = {
       zoom: 12,
-      center: latlng
+      center: new google.maps.LatLng(41.850033, -87.6500523)
     };
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-    var marker = new google.maps.Marker({
-      position: latlng,
-      map: map,
-      title: "You are here"
-    });
+    
     $('.brewery').each(function() { //Drop marker for each brewery
       var ll= new google.maps.LatLng($(this).find('header h1').data('lat'), $(this).find('header h1').data('lng'));
       var brewMarker= new google.maps.Marker({
@@ -30,6 +25,7 @@ $(function() {
     }); //Will need to remove when plotting route
     directionsDisplay.setMap(map);
   }
+  initialize();
   function addBrew() {
     console.log("test");
     console.log(this);
@@ -37,7 +33,11 @@ $(function() {
   navigator.geolocation.getCurrentPosition(showPosition); //Not really doing anything with user loc atm
   function showPosition(position) { //Center map on current position
     currLoc= new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
-    initialize(position.coords.latitude, position.coords.longitude);
+    var marker = new google.maps.Marker({
+      position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
+      map: map,
+      title: "You are here"
+    });
   }
   var tourPlan= {
     init: function() {
