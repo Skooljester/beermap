@@ -1,0 +1,22 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+ul {
+  list-style: none;
+}
+
+#map-canvas {
+  width: 100%;
+  height: 500px;
+}
+
+.brewery {
+  width: 30%;
+  margin-right: 5%;
+  display: inline-block;
+}
+.brewery:nth-child(3n+1) {
+  margin-right: 0;
+}

@@ -1,0 +1,12 @@
+section.breweryList
+  header
+    h1 Breweries
+  each b, index in breweries
+    article.brewery
+      header
+        h1(data-ind= index, data-lat= b.lat, data-lng= b.lng, data-addr= b.address)= b.name
+        button(type= "button").btn.btn-primary.addBrew Add Brewery
+      div.details
+        p= b.address
+        p= b.phone
+        a(href="#{b.menu}") Menu

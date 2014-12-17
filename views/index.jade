@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  header
+    h1.tourListTitle Tour List
+      button(type= "button", disabled= true).btn.btn-success.mapTour Go!
+    ul.tourList
+
+  div#map-canvas
+
+  include _breweryList
+
+  script(src='/js/main.js')
