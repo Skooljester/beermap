@@ -11,12 +11,11 @@ ul {
   width: 100%;
   height: 500px;
 }
-
 .brewery {
   width: 30%;
   margin-right: 5%;
-  display: inline-block;
+  display: inline-block; /*float left may work better if the heights are different*/
 }
-.brewery:nth-child(3n+1) {
+/*.brewery:nth-child(3n+1) {
   margin-right: 0;
-}
+}*/

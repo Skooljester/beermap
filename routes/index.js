@@ -86,6 +86,7 @@ x location + address
 - description
 x contact info
 */
+
 /* GET home page. */
 router.get('/', function(req, res) {
   res.render('index', {
@@ -94,6 +95,7 @@ router.get('/', function(req, res) {
   });
 });
 
+/* Find distance between points */
 router.get('/dist', function(req, res) {
   var str= req.query.addresses.join('|'); //joins the array of addresses sent in `get` request
   //can move key out of URL and into env var

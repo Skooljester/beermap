@@ -29,6 +29,13 @@ $(function() {
   function addBrew() {
     console.log("test");
     console.log(this);
+    var mtit= this.title;
+    $('.brewery').each(function() {
+      if($(this).find('header h1').text()== mtit) {
+        console.log("in if");
+        $(this).find('header button').trigger('click');
+      }
+    });
   }
   navigator.geolocation.getCurrentPosition(showPosition); //Not really doing anything with user loc atm
   function showPosition(position) { //Center map on current position
@@ -44,6 +51,7 @@ $(function() {
       var self= this;
       self.binding();
       self.listeners();
+      self.tileSpace();
     },
     binding: function() {
       var self= this;
@@ -84,11 +92,32 @@ $(function() {
           markers[i].setMap(null);
         }
       });
+      $('#brewSearch').on('keyup', function() {
+        var sval= $(this).val();
+        var holdarr= [];
+        if($(this).val().length>= 3) {
+          console.log("longer");
+          $('.brewery').each(function() {
+            console.log($(this).find('header h1').text().match(sval));
+            if($(this).find('header h1').text().match(sval)) {
+              holdarr.push($(this));
+            }
+          });
+          $('.brewery').hide();
+          for(var i= 0; i< holdarr.length; i++)
+            holdarr[i].show();
+        }
+        else
+          $('.brewery').show();
+        self.tileSpace();
+      });
     },
     listeners: function() { //Listeners for custom emitted events
       var self= this;
       $(document).on('tourAdd', function(e) {
-        if($('.tourList li').length> 1)
+        if($('.tourList li').length== 10)
+          return alert("can't add more than 10 locations");
+        else if($('.tourList li').length> 1)
           $('.mapTour').prop('disabled', false);
       }); 
       $(document).on('tourRemove', function() {
@@ -108,6 +137,17 @@ $(function() {
         obj.removeClass('btn-success').addClass('btn-primary').prop('disabled', false);
         obj.text('Add Brewery');
       }
+    },
+    tileSpace: function() { //Spaces the tiles properly initially and after sort
+      var c= 2;
+      $('.brewery').not(":hidden").attr('style', '');
+      $('.brewery').not(":hidden").each(function(i) {
+        if(i== c) {
+          $(this).css('margin-right', 0);
+          c+= 3;
+        }
+      });
+      c= 2;
     },
     singleRoute: function(start, dest) { //Two-place routing
       var request = {
