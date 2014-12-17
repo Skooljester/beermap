@@ -11,4 +11,5 @@ section.breweryList
       div.details
         p= b.address
         p= b.phone
-        a(href="#{b.menu}") Menu
+        if b.menu
+          a(href="#{b.menu}") Menu

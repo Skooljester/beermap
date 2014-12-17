@@ -55,7 +55,7 @@ var brewSchema= [
     name: "Begyle Brewing Company",
     address: "1800 West Cuyler Avenue, Chicago, IL 60625",
     phone: "(773) 661-6963",
-    menu: "none",
+    menu: null,
     lat: "41.955284",
     lng: "-87.674506"
   },
@@ -71,7 +71,7 @@ var brewSchema= [
     name: "Lagunitas Brewing Company Chicago",
     address: "1843 South Washtenaw Avenue, Chicago, IL 60608",
     phone: "(707) 769-4495",
-    menu: "none",
+    menu: null,
     lat: "41.857202",
     lng: "-87.691988"
   }
@@ -90,7 +90,7 @@ x contact info
 /* GET home page. */
 router.get('/', function(req, res) {
   res.render('index', {
-  	title: 'Express',
+  	title: 'Brewery Tour Planner',
   	breweries: brewSchema
   });
 });

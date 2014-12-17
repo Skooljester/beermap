@@ -96,9 +96,7 @@ $(function() {
         var sval= $(this).val();
         var holdarr= [];
         if($(this).val().length>= 3) {
-          console.log("longer");
           $('.brewery').each(function() {
-            console.log($(this).find('header h1').text().match(sval));
             if($(this).find('header h1').text().match(sval)) {
               holdarr.push($(this));
             }
@@ -140,14 +138,13 @@ $(function() {
     },
     tileSpace: function() { //Spaces the tiles properly initially and after sort
       var c= 2;
-      $('.brewery').not(":hidden").attr('style', '');
+      $('.brewery').not(":hidden").attr('style', ''); //Resets styles on all shown brewery tiles
       $('.brewery').not(":hidden").each(function(i) {
         if(i== c) {
           $(this).css('margin-right', 0);
           c+= 3;
         }
       });
-      c= 2;
     },
     singleRoute: function(start, dest) { //Two-place routing
       var request = {
