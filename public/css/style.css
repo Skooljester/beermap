@@ -19,3 +19,6 @@ ul {
 /*.brewery:nth-child(3n+1) {
   margin-right: 0;
 }*/
+#plannedRoute li {
+  display: inline-block;
+}

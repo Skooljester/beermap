@@ -3,6 +3,7 @@ $(function() {
   var map;
   var directionsDisplay;
   var directionsService = new google.maps.DirectionsService();
+  var stepDisplay;
   var currLoc;
   var markers= [];
   function initialize() {
@@ -24,18 +25,18 @@ $(function() {
       google.maps.event.addListener(brewMarker, 'click', addBrew);
     }); //Will need to remove when plotting route
     directionsDisplay.setMap(map);
+    stepDisplay = new google.maps.InfoWindow();
   }
   initialize();
   function addBrew() {
-    console.log("test");
-    console.log(this);
     var mtit= this.title;
-    $('.brewery').each(function() {
-      if($(this).find('header h1').text()== mtit) {
-        console.log("in if");
-        $(this).find('header button').trigger('click');
-      }
+    var btnTmpl= '<button type="button" class="btn btn-primary markerAdd">Add</button>';
+    $('.tourList li').each(function() {
+      if($(this).text().replace(/X/, "")== mtit) //will need to change `replace` regex if button text changes
+        btnTmpl= '<button type="button" class="btn btn-success markerAdd" disabled= true>Added</button>';
     });
+    stepDisplay.setContent('<p>'+mtit+ '</p>'+ btnTmpl);
+    stepDisplay.open(map, this);
   }
   navigator.geolocation.getCurrentPosition(showPosition); //Not really doing anything with user loc atm
   function showPosition(position) { //Center map on current position
@@ -45,10 +46,20 @@ $(function() {
       map: map,
       title: "You are here"
     });
+    google.maps.event.addListener(marker, 'click', function() {
+      // Open an info window when the marker is clicked on,
+      // containing the text of the step.
+      stepDisplay.setContent("You are here");
+      stepDisplay.open(map, marker);
+    });
   }
   var tourPlan= {
+    swapArr: null,
     init: function() {
       var self= this;
+      $.get('/swap', function(data) {
+        self.swapArr= data;
+      });
       self.binding();
       self.listeners();
       self.tileSpace();
@@ -109,6 +120,16 @@ $(function() {
           $('.brewery').show();
         self.tileSpace();
       });
+      $('body').on('click', '.markerAdd', function() {
+        console.log($(this));
+        var hold= $(this);
+        $('.brewery').each(function() {
+          if($(this).find('header h1').text()== hold.prev('p').text()) {
+            $(this).find('header button').trigger('click');
+            hold.text('Added').removeClass('btn-primary').addClass('btn-success').prop('disabled', true);
+          }
+        });
+      });
     },
     listeners: function() { //Listeners for custom emitted events
       var self= this;
@@ -145,6 +166,20 @@ $(function() {
           c+= 3;
         }
       });
+    },
+    nameAddrSwap: function(addr) {
+      var self= this;
+      var sw= self.swapArr;
+      if(!sw) {
+        $.get('/swap', function(data) {
+          self.swapArr= data;
+          self.nameAddrSwap();
+        });
+      }
+      for(var i= 0; i< sw.length; i++) {
+        if(addr.replace(/\, USA/, "")== sw[i].address)
+          return sw[i].name;
+      }
     },
     singleRoute: function(start, dest) { //Two-place routing
       var request = {
@@ -195,10 +230,9 @@ $(function() {
         directionsService.route(request, function(response, status) { //When mapping need to put market next to name of brewery
           if (status == google.maps.DirectionsStatus.OK) {
             directionsDisplay.setDirections(response);
-
+            var route= response.routes[0];
             //SORT LIST AT TOP -- messy as fuck, doesn't work if you remove and re-add breweries
             function sortTourList() {
-              var route= response.routes[0];
               var l= route.legs.length-1;
               $(".tourList li[data-addr='"+route.legs[0].start_address.replace(/\, USA/, "")+"']").append('<a href="#">Start</a>');
               $(".tourList li[data-addr='"+route.legs[l].end_address.replace(/\, USA/, "")+"']").append('<a href="#">Final</a>');
@@ -221,15 +255,27 @@ $(function() {
             //END TOP SORT LIST
 
             // var summaryPanel = document.getElementById("directions_panel");
-            // summaryPanel.innerHTML = "";
             // // For each route, display summary information.
+            // console.log(route);
+            // var summaryPanel= $('#directions_panel')[0];
+            // summaryPanel.innerHTML = "";
             // for (var i = 0; i < route.legs.length; i++) {
+            //   console.log("in for");
             //   var routeSegment = i+1;
             //   summaryPanel.innerHTML += "<b>Route Segment: " + routeSegment + "</b><br />";
             //   summaryPanel.innerHTML += route.legs[i].start_address + " to ";
             //   summaryPanel.innerHTML += route.legs[i].end_address + "<br />";
             //   summaryPanel.innerHTML += route.legs[i].distance.text + "<br /><br />";
             // }
+            // ----------------------------------------
+            if($('#plannedRoute li'))
+              $('#plannedRoute').empty();
+            for(var j= 0; j< route.legs.length; j++) {
+              $('#plannedRoute').append('<li>'+self.nameAddrSwap(route.legs[j].start_address)+' >></li>');
+              if((j+1)== route.legs.length)
+                $('#plannedRoute').append('<li>'+self.nameAddrSwap(route.legs[j].end_address)+'</li>');
+            }
+            //Clear tour list after this or leave it?
           }
         });
       }

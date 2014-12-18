@@ -53,7 +53,7 @@ var brewSchema= [
   },
   {
     name: "Begyle Brewing Company",
-    address: "1800 West Cuyler Avenue, Chicago, IL 60625",
+    address: "1800 West Cuyler Avenue, Chicago, IL 60613", //ZIP code is weird, one says 60625 one says 60613s
     phone: "(773) 661-6963",
     menu: null,
     lat: "41.955284",
@@ -97,6 +97,7 @@ router.get('/', function(req, res) {
 
 /* Find distance between points */
 router.get('/dist', function(req, res) {
+  console.log(req.query.addresses);
   var str= req.query.addresses.join('|'); //joins the array of addresses sent in `get` request
   //can move key out of URL and into env var
   //would need to turn `mode=driving` into a variable to allow for biking/walking
@@ -106,6 +107,14 @@ router.get('/dist', function(req, res) {
         res.send(body);
       }
   });
+});
+
+router.get('/swap', function(req, res) {
+  var harr= [];
+  for(var i= 0; i< brewSchema.length; i++) {
+    harr.push({name: brewSchema[i].name, address: brewSchema[i].address});
+  }
+  res.send(harr);
 });
 
 module.exports = router;
