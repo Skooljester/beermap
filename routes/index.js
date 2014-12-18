@@ -97,10 +97,8 @@ router.get('/', function(req, res) {
 
 /* Find distance between points */
 router.get('/dist', function(req, res) {
-  console.log(req.query.addresses);
   var str= req.query.addresses.join('|'); //joins the array of addresses sent in `get` request
   //can move key out of URL and into env var
-  console.log(str);
   request({url: 'https://maps.googleapis.com/maps/api/distancematrix/json?origins='+str+'&destinations='+str+'&mode='+req.query.mode+'&key=AIzaSyC-Efjagm9D1r_v4Izz6-vYbb3NmmGIvDw', json: true},
     function (error, response, body) {
       if (!error && response.statusCode == 200) {
@@ -118,7 +116,15 @@ router.get('/swap', function(req, res) {
 });
 
 router.get('/launch', function(req, res) {
-  res.render('_tourWalk', {order: req.query.order}, function(err, html) {
+  var infoPush= [];
+  var rqo= req.query.order;
+  for(var i= 0; i< rqo.length; i++) {
+    for(var j= 0; j< brewSchema.length; j++) {
+      if(rqo[i]== brewSchema[j].name)
+        infoPush.push(brewSchema[j]);
+    }
+  }
+  res.render('_tourWalk', {order: infoPush}, function(err, html) {
     if(!err)
       res.send(html);
   });
@@ -129,7 +135,6 @@ router.get('/uber', function(req, res) {
   var s= req.query.startCo;
   var e= req.query.endCo;
   request({url: 'https://api.uber.com/v1/estimates/price?server_token='+ukey+'&start_latitude='+s[0]+'&start_longitude='+s[1]+'&end_latitude='+e[0]+'&end_longitude='+e[1], json: true}, function (error, response, body) {
-    console.log(body);
     if (!error && response.statusCode == 200) {
       res.send(body);
     }

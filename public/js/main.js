@@ -68,6 +68,7 @@ $(function() {
     },
     binding: function() {
       var self= this;
+      // FIRST STAGE
       $('#transportSelect button').on('click', function() {
         $(this).siblings().removeClass('btn-success active').addClass('btn-default').prop('disabled', false);
         $(this).removeClass('btn-default').addClass('btn-success active').prop('disabled', true);
@@ -103,8 +104,10 @@ $(function() {
         });
         if($('.tourList li').length== 2)
           self.singleRoute(llp[0], llp[1]);
-        else
+        else {
           self.multiRoute(llp);
+          $(this).button('loading');
+        }
         for(var i= 0; i< markers.length; i++) {//hides all brewery markers on the map
           markers[i].setMap(null);
         }
@@ -140,10 +143,38 @@ $(function() {
         $('#plannedRoute li').not(':last').each(function() {
           tourOrder.push($(this).text());
         });
-        console.log(tourOrder);
         $.get('/launch', {order: tourOrder}, function(data) {
           $(data).insertAfter('#transportSelect');
         });
+      });
+      // END FIRST STAGE BINDING
+      // SECOND STAGE
+      $('body').on('click', '#tourWalk .tab-pane.active .nextStep', function(e) {
+        //Do uber call if `uber` selected
+        var curr= $('#transportSelect .active');
+        if(curr.data('mode')== "driving"&& !curr.data('uber')) {
+          console.log("in if"); //Might need multiple other maps to show directions in panes
+        }
+        //Show directions if `driving` selected
+        else if(curr.data('mode')== "driving"&& curr.data('uber')) {
+          console.log("in else if");
+          var ac= $('#tourWalk .tab-pane.active');
+          var s= [ac.data('lat'), ac.data('lng')];
+          var e= [ac.next().data('lat'), ac.next().data('lng')];
+          $.get('/uber', {startCo: s, endCo: e}, function(data) {
+            var ud= data.prices;
+            for(var i= 0; i< (ud.length-1); i++) {
+              ac.prepend('<h2>'+ud[i].localized_display_name+': </h2><p>Price: '+ud[i].estimate+'</p><p>Wait: '+(ud[i].duration/60)+' minutes</p>');
+            }
+            ac.prepend('<h1>Uber estimates</h1>');
+          });// Allow Uber app to be launched from here?
+          $('.tab-pane.active').children().not('.nextStep').hide();
+        }//Have another `else if` that launches if Divvy is selected
+        else {
+          console.log("in else");
+          e.preventDefault();
+          $('#tourNav .active').next().find('a').tab('show');
+        }
       });
     },
     listeners: function() { //Listeners for custom emitted events
@@ -163,11 +194,11 @@ $(function() {
       return '<li data-ind="'+obj.data('ind')+'" data-lat="'+obj.data('lat')+'" data-lng="'+obj.data('lng')+'" data-addr="'+obj.data('addr')+'">'+obj.text()+'<button type="button" class="btn btn-danger removeBrew">X</button></li>';
     },
     btnStateChange: function(bool, obj) { //Change state of button next to brewery name
-      if(bool) {
+      if(bool) { //If `true` disable and change text
         obj.removeClass('btn-primary').addClass('btn-success').prop('disabled', true);
         obj.text('Added');
       }
-      else {
+      else { //If `false` enable
         obj.removeClass('btn-success').addClass('btn-primary').prop('disabled', false);
         obj.text('Add Brewery');
       }
@@ -230,10 +261,7 @@ $(function() {
         multiMap(jc.replace(/\, USA/, ""), ic.replace(/\, USA/, "")); //removes `, USA` in order to match with array
       });
       function multiMap (start, end) {
-        console.log("start: "+start);
-        console.log("end: "+end);
         for (var i = 0; i < arr.length; i++) {
-          console.log(arr);
           if(arr[i]!= start&& arr[i]!= end) { //make sure that the address in array is neither the start or the end
             waypts.push({
               location: arr[i],
@@ -250,6 +278,12 @@ $(function() {
         };
         directionsService.route(request, function(response, status) { //When mapping need to put market next to name of brewery
           if (status == google.maps.DirectionsStatus.OK) {
+            $('.mapTour').button('reset');
+            $('.brewery .btn-success').each(function() { //loop through buttons and change their state
+              self.btnStateChange(false, $(this));
+            });
+            $('.tourList').empty();
+            
             directionsDisplay.setDirections(response);
             
             //SORT LIST AT TOP -- messy as fuck, doesn't work if you remove and re-add breweries
@@ -287,7 +321,7 @@ $(function() {
             //   summaryPanel.innerHTML += route.legs[i].distance.text + "<br /><br />";
             // }
             var route= response.routes[0];
-            console.log(route);
+            // console.log(route);
             // ----------------------------------------
             if($('#plannedRoute li'))
               $('#plannedRoute').empty();

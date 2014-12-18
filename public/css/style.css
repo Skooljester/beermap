@@ -22,3 +22,6 @@ ul {
 #plannedRoute li {
   display: inline-block;
 }
+/*#plannedRoute li::after {
+  content: ">>";
+}*/

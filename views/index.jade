@@ -3,13 +3,13 @@ extends layout
 block content
   header
     h1.tourListTitle Tour List
-      button(type= "button", disabled= true).btn.btn-success.mapTour Map Route
+      button(type= "button", data-loading-text="Mapping...", disabled= true).btn.btn-success.mapTour Map Route
     ul.tourList
 
   div(role="group").btn-group#transportSelect
-    button(type="button", data-mode="bicycling", data-uber=false, disabled=false).btn.btn-default Biking
-    button(type="button", data-mode="driving", data-uber=false, disabled=true).btn.btn-success.active Driving
-    button(type="button", data-mode="driving", data-uber=true, disabled=false).btn.btn-default Uber
+    button(type="button", data-mode="bicycling", data-uber="false", disabled=false).btn.btn-default Biking
+    button(type="button", data-mode="driving", data-uber="false", disabled=true).btn.btn-success.active Driving
+    button(type="button", data-mode="driving", data-uber="true", disabled=false).btn.btn-default Uber
 
   div#directions_panel
     ul#plannedRoute

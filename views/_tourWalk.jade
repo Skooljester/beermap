@@ -1,18 +1,29 @@
-section.tourWalk
+mixin panel(index, val, bool, ol)
+  div(role="tabpanel", id="#{index}", class="#{bool}", data-addr="#{val.address}", data-lat="#{val.lat}", data-lng="#{val.lng}").tab-pane
+    h2= val.name
+    p= val.phone
+    section
+      ul
+        li beer 1
+        li beer 2
+        li beer 3
+        li etc.
+    if index!= ol-1
+      button(type= "button").btn.btn-primary.nextStep Next Location
+
+section#tourWalk
   div(role="tabpanel")
-    ul(role="tablist").nav.nav-tabs
+    ul(role="tablist").nav.nav-tabs#tourNav
       each val, index in order
         if index== 0
           li(role="presentation").active
-            a(href="##{index}", role="tab", data-toggle="tab")= val
+            a(href="##{index}", role="tab", data-toggle="tab")= val.name
         else
           li(role="presentation")
-            a(href="##{index}", role="tab", data-toggle="tab")= val
+            a(href="##{index}", role="tab", data-toggle="tab")= val.name
     div.tab-content
       each val, index in order
         if index== 0
-          div(role="tabpanel", id="#{index}").tab-pane.active
-            p= val
+          +panel(index, val, "active", order.length)
         else
-          div(role="tabpanel", id="#{index}").tab-pane
-            p= val
+          +panel(index, val, "", order.length)
