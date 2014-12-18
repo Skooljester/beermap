@@ -23,11 +23,11 @@ $(function() {
       });
       markers.push(brewMarker);
       google.maps.event.addListener(brewMarker, 'click', addBrew);
-    }); //Will need to remove when plotting route
+    });
     directionsDisplay.setMap(map);
     stepDisplay = new google.maps.InfoWindow();
   }
-  initialize();
+  initialize(); //initialize google maps
   function addBrew() {
     var mtit= this.title;
     var btnTmpl= '<button type="button" class="btn btn-primary markerAdd">Add</button>';
@@ -38,6 +38,7 @@ $(function() {
     stepDisplay.setContent('<p>'+mtit+ '</p>'+ btnTmpl);
     stepDisplay.open(map, this);
   }
+  // --- Current location stuff
   navigator.geolocation.getCurrentPosition(showPosition); //Not really doing anything with user loc atm
   function showPosition(position) { //Center map on current position
     currLoc= new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
@@ -53,6 +54,7 @@ $(function() {
       stepDisplay.open(map, marker);
     });
   }
+  // --- end current location
   var tourPlan= {
     swapArr: null,
     init: function() {
@@ -121,7 +123,6 @@ $(function() {
         self.tileSpace();
       });
       $('body').on('click', '.markerAdd', function() {
-        console.log($(this));
         var hold= $(this);
         $('.brewery').each(function() {
           if($(this).find('header h1').text()== hold.prev('p').text()) {
@@ -256,11 +257,10 @@ $(function() {
 
             // var summaryPanel = document.getElementById("directions_panel");
             // // For each route, display summary information.
-            // console.log(route);
+            console.log(route);
             // var summaryPanel= $('#directions_panel')[0];
             // summaryPanel.innerHTML = "";
             // for (var i = 0; i < route.legs.length; i++) {
-            //   console.log("in for");
             //   var routeSegment = i+1;
             //   summaryPanel.innerHTML += "<b>Route Segment: " + routeSegment + "</b><br />";
             //   summaryPanel.innerHTML += route.legs[i].start_address + " to ";
@@ -275,6 +275,12 @@ $(function() {
               if((j+1)== route.legs.length)
                 $('#plannedRoute').append('<li>'+self.nameAddrSwap(route.legs[j].end_address)+'</li>');
             }
+            var s= [route.legs[0].start_location.k, route.legs[0].start_location.D];
+            var e= [route.legs[1].start_location.k, route.legs[1].start_location.D];
+            console.log(s);
+            $.get('/uber', {startCo: s, endCo: e}, function(data) {
+              console.log(data);
+            });
             //Clear tour list after this or leave it?
           }
         });
