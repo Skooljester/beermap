@@ -119,18 +119,9 @@ router.get('/swap', function(req, res) {
 
 router.get('/uber', function(req, res) {
   var ukey= '3hqL2q4aQR2zqCftvN6AhH0WxFgk3oqCWeBAPzzb'
-  // https://api.uber.com/v1/estimates/price
   var s= req.query.startCo;
   var e= req.query.endCo;
-  console.log(s);
-  console.log(e);
-  request({url: 'https://api.uber.com/v1/estimates/price', body: {
-    'server_token': ukey,
-    'start_latitude': s[0],
-    'start_longitude': s[1],
-    'end_latitude': e[0],
-    'end_longitude': e[1]
-  }, json: true}, function (error, response, body) {
+  request({url: 'https://api.uber.com/v1/estimates/price?server_token='+ukey+'&start_latitude='+s[0]+'&start_longitude='+s[1]+'&end_latitude='+e[0]+'&end_longitude='+e[1], json: true}, function (error, response, body) {
     console.log(body);
     if (!error && response.statusCode == 200) {
       res.send(body);

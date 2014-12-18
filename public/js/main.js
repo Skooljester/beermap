@@ -230,8 +230,9 @@ $(function() {
         };
         directionsService.route(request, function(response, status) { //When mapping need to put market next to name of brewery
           if (status == google.maps.DirectionsStatus.OK) {
-            directionsDisplay.setDirections(response);
             var route= response.routes[0];
+            directionsDisplay.setDirections(response);
+            
             //SORT LIST AT TOP -- messy as fuck, doesn't work if you remove and re-add breweries
             function sortTourList() {
               var l= route.legs.length-1;
@@ -257,7 +258,6 @@ $(function() {
 
             // var summaryPanel = document.getElementById("directions_panel");
             // // For each route, display summary information.
-            console.log(route);
             // var summaryPanel= $('#directions_panel')[0];
             // summaryPanel.innerHTML = "";
             // for (var i = 0; i < route.legs.length; i++) {
@@ -277,11 +277,11 @@ $(function() {
             }
             var s= [route.legs[0].start_location.k, route.legs[0].start_location.D];
             var e= [route.legs[1].start_location.k, route.legs[1].start_location.D];
-            console.log(s);
-            $.get('/uber', {startCo: s, endCo: e}, function(data) {
-              console.log(data);
-            });
             //Clear tour list after this or leave it?
+            // $.get('/uber', {startCo: s, endCo: e}, function(data) {
+            //   console.log(data);
+            // });
+            // Uber API not being used right now
           }
         });
       }
