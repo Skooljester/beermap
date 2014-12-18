@@ -1,0 +1,18 @@
+section.tourWalk
+  div(role="tabpanel")
+    ul(role="tablist").nav.nav-tabs
+      each val, index in order
+        if index== 0
+          li(role="presentation").active
+            a(href="##{index}", role="tab", data-toggle="tab")= val
+        else
+          li(role="presentation")
+            a(href="##{index}", role="tab", data-toggle="tab")= val
+    div.tab-content
+      each val, index in order
+        if index== 0
+          div(role="tabpanel", id="#{index}").tab-pane.active
+            p= val
+        else
+          div(role="tabpanel", id="#{index}").tab-pane
+            p= val

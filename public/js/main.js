@@ -68,6 +68,10 @@ $(function() {
     },
     binding: function() {
       var self= this;
+      $('#transportSelect button').on('click', function() {
+        $(this).siblings().removeClass('btn-success active').addClass('btn-default').prop('disabled', false);
+        $(this).removeClass('btn-default').addClass('btn-success active').prop('disabled', true);
+      });
       $('.brewery .addBrew').on('click', function() { //Add item to list
         var ch= true; // var for check
         var dind= $(this).siblings('h1').data('ind'); //index number of clicked h1
@@ -129,6 +133,16 @@ $(function() {
             $(this).find('header button').trigger('click');
             hold.text('Added').removeClass('btn-primary').addClass('btn-success').prop('disabled', true);
           }
+        });
+      });
+      $('#plannedRoute').on('click', '#tourLaunch', function() { //Starts going through tour
+        var tourOrder= [];
+        $('#plannedRoute li').not(':last').each(function() {
+          tourOrder.push($(this).text());
+        });
+        console.log(tourOrder);
+        $.get('/launch', {order: tourOrder}, function(data) {
+          $(data).insertAfter('#transportSelect');
         });
       });
     },
@@ -197,7 +211,10 @@ $(function() {
     multiRoute: function(arr) { //Multi-place routing
       var self= this;
       var waypts = [];
-      $.get('/dist', {addresses: arr}, function(data) { //send addresses to backend
+      var transportMode= google.maps.TravelMode.DRIVING;
+      if($('#transportSelect button.active').data('mode')== "bicycling")
+        transportMode= google.maps.TravelMode.BICYCLING;
+      $.get('/dist', {addresses: arr, mode: $('#transportSelect button.active').data('mode')}, function(data) { //send addresses to backend
         var dist= 0;
         var jc; //address for origin location
         var ic; //address for dest location
@@ -213,7 +230,10 @@ $(function() {
         multiMap(jc.replace(/\, USA/, ""), ic.replace(/\, USA/, "")); //removes `, USA` in order to match with array
       });
       function multiMap (start, end) {
+        console.log("start: "+start);
+        console.log("end: "+end);
         for (var i = 0; i < arr.length; i++) {
+          console.log(arr);
           if(arr[i]!= start&& arr[i]!= end) { //make sure that the address in array is neither the start or the end
             waypts.push({
               location: arr[i],
@@ -226,11 +246,10 @@ $(function() {
           destination: end,
           waypoints: waypts,
           optimizeWaypoints: true,
-          travelMode: google.maps.TravelMode.DRIVING //Can turn into variable to allow for biking to be an option
+          travelMode: transportMode //Can turn into variable to allow for biking to be an option
         };
         directionsService.route(request, function(response, status) { //When mapping need to put market next to name of brewery
           if (status == google.maps.DirectionsStatus.OK) {
-            var route= response.routes[0];
             directionsDisplay.setDirections(response);
             
             //SORT LIST AT TOP -- messy as fuck, doesn't work if you remove and re-add breweries
@@ -267,17 +286,20 @@ $(function() {
             //   summaryPanel.innerHTML += route.legs[i].end_address + "<br />";
             //   summaryPanel.innerHTML += route.legs[i].distance.text + "<br /><br />";
             // }
+            var route= response.routes[0];
+            console.log(route);
             // ----------------------------------------
             if($('#plannedRoute li'))
               $('#plannedRoute').empty();
             for(var j= 0; j< route.legs.length; j++) {
-              $('#plannedRoute').append('<li>'+self.nameAddrSwap(route.legs[j].start_address)+' >></li>');
+              $('#plannedRoute').append('<li>'+self.nameAddrSwap(route.legs[j].start_address)+'</li>');
               if((j+1)== route.legs.length)
                 $('#plannedRoute').append('<li>'+self.nameAddrSwap(route.legs[j].end_address)+'</li>');
             }
-            var s= [route.legs[0].start_location.k, route.legs[0].start_location.D];
-            var e= [route.legs[1].start_location.k, route.legs[1].start_location.D];
+            $('#plannedRoute').append('<li><button type="button" class="btn btn-success" id="tourLaunch">Start Crawl</button></li>');
             //Clear tour list after this or leave it?
+            // var s= [route.legs[0].start_location.k, route.legs[0].start_location.D];
+            // var e= [route.legs[1].start_location.k, route.legs[1].start_location.D];
             // $.get('/uber', {startCo: s, endCo: e}, function(data) {
             //   console.log(data);
             // });

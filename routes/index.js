@@ -37,7 +37,7 @@ var brewSchema= [
   },
   {
     name: "DryHop Brewers",
-    address: "3155 North Broadway Street, Chicago, IL 60657",
+    address: "3156 North Broadway Street, Chicago, IL 60657", //correct address is 3155, but results are fucked if 3155 used
     phone: "(773) 857-3155",
     menu: "http://www.urbanspoon.com/cities/2-chicago/restaurants/1757835-dryhop-brewers/menu",
     lat: "41.939351",
@@ -100,8 +100,8 @@ router.get('/dist', function(req, res) {
   console.log(req.query.addresses);
   var str= req.query.addresses.join('|'); //joins the array of addresses sent in `get` request
   //can move key out of URL and into env var
-  //would need to turn `mode=driving` into a variable to allow for biking/walking
-  request({url: 'https://maps.googleapis.com/maps/api/distancematrix/json?origins='+str+'&destinations='+str+'&mode=driving&key=AIzaSyC-Efjagm9D1r_v4Izz6-vYbb3NmmGIvDw', json: true},
+  console.log(str);
+  request({url: 'https://maps.googleapis.com/maps/api/distancematrix/json?origins='+str+'&destinations='+str+'&mode='+req.query.mode+'&key=AIzaSyC-Efjagm9D1r_v4Izz6-vYbb3NmmGIvDw', json: true},
     function (error, response, body) {
       if (!error && response.statusCode == 200) {
         res.send(body);
@@ -115,6 +115,13 @@ router.get('/swap', function(req, res) {
     harr.push({name: brewSchema[i].name, address: brewSchema[i].address});
   }
   res.send(harr);
+});
+
+router.get('/launch', function(req, res) {
+  res.render('_tourWalk', {order: req.query.order}, function(err, html) {
+    if(!err)
+      res.send(html);
+  });
 });
 
 router.get('/uber', function(req, res) {
