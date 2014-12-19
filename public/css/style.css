@@ -63,7 +63,9 @@ ul {
 #tourWalk {
   margin-top: 50px;
 }
-
+.uberForm {
+  display: none;
+}
 /* FOOTER STYLES */
 footer a {
   padding: 10px;

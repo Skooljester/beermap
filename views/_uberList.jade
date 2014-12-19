@@ -1,0 +1,20 @@
+h1 Uber Estimates
+each val, index in ubl
+  h2(data-pid= "#{val.product_id}")= val.localized_display_name
+    button(type="button").btn.btn-default.uberCall Call for this car
+  p Price: #{val.estimate}
+  p Wait: #{val.duration}
+form(role= "form").uberForm
+  div.form-group
+    label(for="firstName") First Name
+    input(type="text", placeholder="Enter first name").form-control#firstName
+  div.form-group
+    label(for="lastName") Last Name
+    input(type="text", placeholder="Enter last name").form-control#lastName
+  div.form-group
+    label(for="emailInput") Email
+    input(type="email", placeholder="Enter email").form-control#emailInput
+  div.form-group
+    label(for="phoneInput") Phone Number
+    input(type="tel", placeholder="Enter phone number").form-control#phoneInput
+  button(type="submit").btn.btn-default.uberFormSubmit Submit

@@ -136,13 +136,10 @@ router.get('/uber', function(req, res) { //hits Uber API to get prices from one 
   var e= req.query.endCo;
   request({url: 'https://api.uber.com/v1/estimates/price?server_token='+ukey+'&start_latitude='+s[0]+'&start_longitude='+s[1]+'&end_latitude='+e[0]+'&end_longitude='+e[1], json: true}, function (error, response, body) {
     if (!error && response.statusCode == 200) {
-      res.send(body);
+      res.render('_uberList', {ubl: body.prices}, function(err, html) {
+        res.send(html)
+      });
     }
   });
 });
-
-router.get('/uberlaunch', function(req, res) {
-  res.redirect('https://m.uber.com/sign-up?client_id=q7EfkpqdZ0oenw8hpI2U9kuEzoZ5lA-t');
-});
-
 module.exports = router;

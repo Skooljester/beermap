@@ -191,16 +191,8 @@ $(function() {
         //Show directions if `driving` selected
         else if(curr.data('mode')== "driving"&& curr.data('uber')) {
           console.log("in else if");
-          // var ac= $('#tourWalk .tab-pane.active');
-          // var s= [ac.data('lat'), ac.data('lng')];
-          // var e= [ac.next().data('lat'), ac.next().data('lng')];
           $.get('/uber', {startCo: s, endCo: e}, function(data) {
-            var ud= data.prices;
-            for(var i= 0; i< (ud.length-1); i++) {
-              ac.prepend('<h2>'+ud[i].localized_display_name+': </h2><p>Price: '+ud[i].estimate+'</p><p>Wait: '+(ud[i].duration/60)+' minutes</p>');
-            }
-            ac.prepend('<h1>Uber estimates</h1>');
-            ac.append('<button type="button" class="btn btn-default uberCall">Call Uber</button>');
+            $(ac).prepend(data);
           });// Allow Uber app to be launched from here?
           $('.tab-pane.active').children().not('.nextStep').hide();
         }//Have another `else if` that launches if Divvy is selected
@@ -210,10 +202,11 @@ $(function() {
           $('#tourNav .active').next().find('a').tab('show');
         }
       });
-      $('body').on('click', '.uberCall', function() {
-        $.get('/uberlaunch', function(data) {
-          console.log(data);
-        });
+      $('body').on('click', '.uberCall', function() {//May not need form if just lat+lng can be used
+        var urlpart= '&product_id='+$(this).parent().data('pid')+'&pickup_latitude='+$('#tourWalk .tab-pane.active').data('lat')+'&pickup_longitude='+$('#tourWalk .tab-pane.active').data('lng')+
+        '&dropoff_latitude='+$('#tourWalk .tab-pane.active').next().data('lat')+'&dropoff_longitude='+$('#tourWalk .tab-pane.active').next().data('lng'); //add more to this if needed
+        window.open('https://m.uber.com/sign-up?client_id=q7EfkpqdZ0oenw8hpI2U9kuEzoZ5lA-t'+urlpart, '_blank');
+        $('#tourNav .active').next().find('a').tab('show');
       });
     },
     listeners: function() { //Listeners for custom emitted events
