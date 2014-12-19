@@ -141,4 +141,8 @@ router.get('/uber', function(req, res) { //hits Uber API to get prices from one 
   });
 });
 
+router.get('/uberlaunch', function(req, res) {
+  res.redirect('https://m.uber.com/sign-up?client_id=q7EfkpqdZ0oenw8hpI2U9kuEzoZ5lA-t');
+});
+
 module.exports = router;

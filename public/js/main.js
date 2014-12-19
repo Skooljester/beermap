@@ -200,6 +200,7 @@ $(function() {
               ac.prepend('<h2>'+ud[i].localized_display_name+': </h2><p>Price: '+ud[i].estimate+'</p><p>Wait: '+(ud[i].duration/60)+' minutes</p>');
             }
             ac.prepend('<h1>Uber estimates</h1>');
+            ac.append('<button type="button" class="btn btn-default uberCall">Call Uber</button>');
           });// Allow Uber app to be launched from here?
           $('.tab-pane.active').children().not('.nextStep').hide();
         }//Have another `else if` that launches if Divvy is selected
@@ -208,6 +209,11 @@ $(function() {
           e.preventDefault();
           $('#tourNav .active').next().find('a').tab('show');
         }
+      });
+      $('body').on('click', '.uberCall', function() {
+        $.get('/uberlaunch', function(data) {
+          console.log(data);
+        });
       });
     },
     listeners: function() { //Listeners for custom emitted events
