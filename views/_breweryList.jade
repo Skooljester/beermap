@@ -4,11 +4,11 @@ section.breweryList
     label(for="brewSearch") Search for Breweries
     input(type="text", class="form-control", placeholder="Search for a brewery")#brewSearch
   each b, index in breweries
-    article.brewery
-      header
+    article.brewery.panel.panel-default
+      header.panel-heading
         h1(data-ind= index, data-lat= b.lat, data-lng= b.lng, data-addr= b.address)= b.name
         button(type= "button").btn.btn-primary.addBrew Add Brewery
-      div.details
+      div.details.panel-body
         p= b.address
         p= b.phone
         if b.menu

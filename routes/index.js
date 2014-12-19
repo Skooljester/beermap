@@ -37,7 +37,7 @@ var brewSchema= [
   },
   {
     name: "DryHop Brewers",
-    address: "3156 North Broadway Street, Chicago, IL 60657", //correct address is 3155, but results are fucked if 3155 used
+    address: "3155 North Broadway Street, Chicago, IL 60657", //correct address is 3155, but results are fucked if 3155 used
     phone: "(773) 857-3155",
     menu: "http://www.urbanspoon.com/cities/2-chicago/restaurants/1757835-dryhop-brewers/menu",
     lat: "41.939351",
@@ -90,7 +90,7 @@ x contact info
 /* GET home page. */
 router.get('/', function(req, res) {
   res.render('index', {
-  	title: 'Brewery Tour Planner',
+  	title: 'Chicago Brewery Tour Planner',
   	breweries: brewSchema
   });
 });
@@ -107,7 +107,7 @@ router.get('/dist', function(req, res) {
   });
 });
 
-router.get('/swap', function(req, res) {
+router.get('/swap', function(req, res) { //sends array of name, address pairs
   var harr= [];
   for(var i= 0; i< brewSchema.length; i++) {
     harr.push({name: brewSchema[i].name, address: brewSchema[i].address});
@@ -115,7 +115,7 @@ router.get('/swap', function(req, res) {
   res.send(harr);
 });
 
-router.get('/launch', function(req, res) {
+router.get('/launch', function(req, res) { //renders out the template for launching the tour
   var infoPush= [];
   var rqo= req.query.order;
   for(var i= 0; i< rqo.length; i++) {
@@ -130,7 +130,7 @@ router.get('/launch', function(req, res) {
   });
 });
 
-router.get('/uber', function(req, res) {
+router.get('/uber', function(req, res) { //hits Uber API to get prices from one location to another
   var ukey= '3hqL2q4aQR2zqCftvN6AhH0WxFgk3oqCWeBAPzzb'
   var s= req.query.startCo;
   var e= req.query.endCo;

@@ -26,6 +26,7 @@ $(function() {
     });
     directionsDisplay.setMap(map);
     stepDisplay = new google.maps.InfoWindow();
+    $('#map-canvas').append('<header id="directionsHeader"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span><a href="#" id="directionToggle">Hide Directions</a></header><div id="directions"></div>');
   }
   initialize(); //initialize google maps
   function addBrew() {
@@ -112,6 +113,9 @@ $(function() {
           markers[i].setMap(null);
         }
       });
+      $('#directions_panel').on('click', '#tourSave', function() { //Will save brewery route once DB linked in, will require sign-in
+        console.log("Save code goes here");
+      });
       $('#brewSearch').on('keyup', function() {
         var sval= $(this).val();
         var holdarr= [];
@@ -138,29 +142,58 @@ $(function() {
           }
         });
       });
-      $('#plannedRoute').on('click', '#tourLaunch', function() { //Starts going through tour
+      $('#directions_panel').on('click', '#tourLaunch', function() { //Starts going through tour
         var tourOrder= [];
-        $('#plannedRoute li').not(':last').each(function() {
+        $('#plannedRoute li').each(function() {
           tourOrder.push($(this).text());
         });
         $.get('/launch', {order: tourOrder}, function(data) {
-          $(data).insertAfter('#transportSelect');
+          $(data).insertAfter('#map-canvas');
+          $('.breweryList').fadeOut(200);
+          $(window).scrollTop($('#tourWalk').position().top);
+          $('.tourListTitle, .tourList').hide();
+          map.setOptions({
+            zoom: 16,
+            center: new google.maps.LatLng($('.tab-pane.active').data('lat'), $('.tab-pane.active').data('lng'))
+          });
+          $('#directions_panel').hide();
         });
+      });
+      $('body').on('click', '#directionToggle', function() {
+        if($('#directions').is(':visible')) {
+          $('#directions').slideUp(300);
+          $(this).text('Show Directions');
+          $(this).siblings('span').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+        }
+        else {
+          $('#directions').slideDown(300);
+          $(this).text('Hide Directions');
+          $(this).siblings('span').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+        }
+        return false;
       });
       // END FIRST STAGE BINDING
       // SECOND STAGE
       $('body').on('click', '#tourWalk .tab-pane.active .nextStep', function(e) {
         //Do uber call if `uber` selected
         var curr= $('#transportSelect .active');
+        var ac= $('#tourWalk .tab-pane.active');
+        var s= [ac.data('lat'), ac.data('lng')];
+        var e= [ac.next().data('lat'), ac.next().data('lng')];
         if(curr.data('mode')== "driving"&& !curr.data('uber')) {
           console.log("in if"); //Might need multiple other maps to show directions in panes
+          $(window).scrollTop($('#map-canvas').position().top);
+          $('#directionsHeader').show();
+          $('#directions').slideDown(300);
+          map.setCenter(new google.maps.LatLng(e[0], e[1]));
+          $('#tourNav .active').next().find('a').tab('show');
         }
         //Show directions if `driving` selected
         else if(curr.data('mode')== "driving"&& curr.data('uber')) {
           console.log("in else if");
-          var ac= $('#tourWalk .tab-pane.active');
-          var s= [ac.data('lat'), ac.data('lng')];
-          var e= [ac.next().data('lat'), ac.next().data('lng')];
+          // var ac= $('#tourWalk .tab-pane.active');
+          // var s= [ac.data('lat'), ac.data('lng')];
+          // var e= [ac.next().data('lat'), ac.next().data('lng')];
           $.get('/uber', {startCo: s, endCo: e}, function(data) {
             var ud= data.prices;
             for(var i= 0; i< (ud.length-1); i++) {
@@ -308,21 +341,10 @@ $(function() {
               $('.tourList').append(last);
             }
             //END TOP SORT LIST
-
-            // var summaryPanel = document.getElementById("directions_panel");
-            // // For each route, display summary information.
-            // var summaryPanel= $('#directions_panel')[0];
-            // summaryPanel.innerHTML = "";
-            // for (var i = 0; i < route.legs.length; i++) {
-            //   var routeSegment = i+1;
-            //   summaryPanel.innerHTML += "<b>Route Segment: " + routeSegment + "</b><br />";
-            //   summaryPanel.innerHTML += route.legs[i].start_address + " to ";
-            //   summaryPanel.innerHTML += route.legs[i].end_address + "<br />";
-            //   summaryPanel.innerHTML += route.legs[i].distance.text + "<br /><br />";
-            // }
             var route= response.routes[0];
-            // console.log(route);
-            // ----------------------------------------
+            //var summaryPanel = document.getElementById("directions");
+            // For each route, display summary information.
+            directionsDisplay.setPanel(document.getElementById('directions'));
             if($('#plannedRoute li'))
               $('#plannedRoute').empty();
             for(var j= 0; j< route.legs.length; j++) {
@@ -330,7 +352,7 @@ $(function() {
               if((j+1)== route.legs.length)
                 $('#plannedRoute').append('<li>'+self.nameAddrSwap(route.legs[j].end_address)+'</li>');
             }
-            $('#plannedRoute').append('<li><button type="button" class="btn btn-success" id="tourLaunch">Start Crawl</button></li>');
+            $('#directions_panel').append('<div role="group" class="btn-group" id="saveStart"><button type="button" class="btn btn-default" id="tourSave">Save Route</button><button type="button" class="btn btn-success" id="tourLaunch">Start Crawl</button></div>');            
             //Clear tour list after this or leave it?
             // var s= [route.legs[0].start_location.k, route.legs[0].start_location.D];
             // var e= [route.legs[1].start_location.k, route.legs[1].start_location.D];

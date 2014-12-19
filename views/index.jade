@@ -2,7 +2,9 @@ extends layout
 
 block content
   header
-    h1.tourListTitle Tour List
+    div.page-header
+      h1 Chicago Brewery Tours
+    h2.tourListTitle Tour List
       button(type= "button", data-loading-text="Mapping...", disabled= true).btn.btn-success.mapTour Map Route
     ul.tourList
 
@@ -19,3 +21,6 @@ block content
   include _breweryList
 
   script(src='/js/main.js')
+
+block footer
+  include footer
