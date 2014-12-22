@@ -53,9 +53,6 @@ ul {
   margin-right: 5%;
   display: inline-block;*/ /*float left may work better if the heights are different*/
 }
-/*.brewery:nth-child(3n+1) {
-  margin-right: 0;
-}*/
 #plannedRoute {
   display: inline-block;
 }
@@ -63,18 +60,17 @@ ul {
   display: inline-block;
   padding-right: 10px;
 }
-/*#plannedRoute li::after {
-  content: ">>";
-}*/
 #transportSelect button:first-child {
-  border-radius: 0px 4px 4px 0px;
-  -moz-border-radius: 0px 4px 4px 0px;
-  -webkit-border-radius: 0px 4px 4px 0px;
+  border-radius: 0px;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
 }
 #saveStart {
   display: inline-block;
 }
-
+.breweryList header {
+  margin-bottom: 20px;
+}
 /* TOUR LAUNCH STYLES */
 #tourWalk {
   margin-top: 50px;

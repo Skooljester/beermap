@@ -12,18 +12,9 @@ mixin breweryTile(b, index)
 section.breweryList
   header
     h1 Breweries
-    div.form-group
-      div.input-group
-        label(for="brewSearch").sr-only Search for Breweries
-        div.input-group-addon Search for Breweries
-        input(type="text", class="form-control", placeholder="Search for a location")#brewSearch
-  //- - for (var i= 0; i< breweries.length; i++)
-  //-   - var j= i+1
-  //-   if i%2== 0
-  //-     div.row
-  //-       +breweryTile(breweries[i], i)
-  //-       unless j== breweries.length
-  //-         +breweryTile(breweries[j], j)
+    div.input-group
+      span.input-group-addon Search for Breweries
+      input(type="text", class="form-control", placeholder="Search for a location")#brewSearch
   div.row
     each b, index in breweries
       div.col-md-6
