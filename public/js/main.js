@@ -231,7 +231,7 @@ $(function() {
       });
     },
     listTmpl: function(obj) { //Template out list item
-      return '<li data-ind="'+obj.data('ind')+'" data-lat="'+obj.data('lat')+'" data-lng="'+obj.data('lng')+'" data-addr="'+obj.data('addr')+'">'+obj.text()+'<button type="button" class="btn btn-danger removeBrew">X</button></li>';
+      return '<li data-ind="'+obj.data('ind')+'" data-lat="'+obj.data('lat')+'" data-lng="'+obj.data('lng')+'" data-addr="'+obj.data('addr')+'" class="list-group-item">'+obj.text()+'<button type="button" class="btn btn-danger removeBrew">X</button></li>';
     },
     btnStateChange: function(bool, obj) { //Change state of button next to brewery name
       if(bool) { //If `true` disable and change text

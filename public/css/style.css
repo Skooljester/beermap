@@ -4,14 +4,24 @@ body {
 
 ul {
   list-style: none;
+  padding: 0;
 }
 
 /* Needs massive style clean-up */
+
+/* overrides */
+.tab-content {
+  margin-top: -1px;
+}
+/* end overrides */
 
 #map-canvas {
   width: 100%;
   height: 500px;
   position: relative;
+}
+.markerAdd {
+  width: 100%;
 }
 #directionsHeader {
   height: 5%;
@@ -69,4 +79,5 @@ ul {
 /* FOOTER STYLES */
 footer a {
   padding: 10px;
+  text-align: center;
 }

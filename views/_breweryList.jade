@@ -5,7 +5,7 @@ mixin breweryTile(b, index)
       button(type= "button").btn.btn-primary.addBrew Add Brewery
     div.details.panel-body
       p= b.address
-      p= b.phone
+      a(href="tel:#{b.phone}")= b.phone
       if b.menu
         //-a(href="#{b.menu}") Menu
 
@@ -16,7 +16,7 @@ section.breweryList
       div.input-group
         label(for="brewSearch").sr-only Search for Breweries
         div.input-group-addon Search for Breweries
-        input(type="text", class="form-control", placeholder="Search for a brewery")#brewSearch
+        input(type="text", class="form-control", placeholder="Search for a location")#brewSearch
   //- - for (var i= 0; i< breweries.length; i++)
   //-   - var j= i+1
   //-   if i%2== 0
@@ -29,4 +29,4 @@ section.breweryList
       div.col-md-6
         +breweryTile(b, index)
       if index%2!= 0
-        div.clearfix.visible-md-block.visible-lg-block
+        div.clearfix

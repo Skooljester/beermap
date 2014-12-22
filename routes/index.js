@@ -315,7 +315,98 @@ var brewSchema= [
     menu: "http://www.urbanspoon.com/cities/2-chicago/restaurants/1714435-atlas-brewing-company/menu",
     lat: "41.931876",
     lng: "-87.657292",
-    locbeers: []
+    locbeers: [
+      {
+        bid: 848073,
+        name: 'Nanosaurus Slumber Party',
+        style: 'Saison / Farmhouse Ale',
+        score: 3.44
+      },
+      {
+        bid: 881545,
+        name: 'Polish Falcon Baltic Porter',
+        style: 'Baltic Porter',
+        score: 3.774
+      },
+      {
+        bid: 674844,
+        name: 'Farmhouse Wheat Ale',
+        style: 'Saison / Farmhouse Ale',
+        score: 3.421
+      },
+      {
+        bid: 890494,
+        name: 'Monkey Shriek Hibiscus Sour Ale',
+        style: 'Sour Ale',
+        score: 3.466
+      },
+      {
+        bid: 240724,
+        name: 'Reaper\'s Breath',
+        style: 'Belgian Strong Dark Ale',
+        score: 3.473
+      },
+      {
+        bid: 909848,
+        name: 'Rookery Platinum Rye IPA',
+        style: 'Rye Beer',
+        score: 3.667
+      },
+      {
+        bid: 877787,
+        name: 'Passion For Glory Double IPA',
+        style: 'American IPA',
+        score: 3.728
+      },
+      {
+        bid: 202373,
+        name: 'Golden Ale',
+        style: 'Golden Ale',
+        score: 3.282
+      },
+      {
+        bid: 684225,
+        name: 'Rookery Rye IPA',
+        style: 'American IPA',
+        score: 3.596
+      },
+      {
+        bid: 674875,
+        name: 'Freight Handler',
+        style: 'Milk / Sweet Stout',
+        score: 3.655
+      },
+      {
+        bid: 454662,
+        name: 'Barrel-Aged Project Brew No. 8 - Sauternes',
+        style: 'Belgian Strong Pale Ale',
+        score: 3.739
+      },
+      {
+        bid: 203556,
+        name: 'Diversey Pale Ale',
+        style: 'American Pale Ale',
+        score: 3.446
+      },
+      {
+        bid: 770177,
+        name: 'T-Rex Hugs',
+        style: 'Belgian Strong Dark Ale',
+        score: 3.558
+      },
+      {
+        bid: 878856,
+        name: 'T-Rex Hugs Sauternes Barrel Aged',
+        style: 'Belgian Strong Dark Ale',
+        score: 3.348
+      },
+      {
+        bid: 769023,
+        name: 'Freight Handler (Cardamom Infused)',
+        style: 'Milk / Sweet Stout',
+        score: 3.808
+      }
+    ]
   },
   {
     name: "DryHop Brewers",
@@ -325,7 +416,74 @@ var brewSchema= [
     menu: "http://www.urbanspoon.com/cities/2-chicago/restaurants/1757835-dryhop-brewers/menu",
     lat: "41.939351",
     lng: "-87.644205",
-    locbeers: []
+    locbeers: [
+      {
+        bid: 521852,
+        name: 'Milkstachio',
+        style: 'Milk / Sweet Stout',
+        score: 4.098
+      },
+      {
+        bid: 532709,
+        name: 'Heat Miser Meets Yuppie',
+        style: 'American IPA',
+        score: 3.685
+      },
+      {
+        bid: 919109,
+        name: 'Photobomb',
+        style: 'Imperial / Double Red Ale',
+        score: 0
+      },
+      {
+        bid: 515829,
+        name: 'Moustache and a Supernova',
+        style: 'Bière de Garde',
+        score: 3.664
+      },
+      {
+        bid: 883109,
+        name: 'Le Petit Démon',
+        style: 'Other',
+        score: 3.122
+      },
+      {
+        bid: 889244,
+        name: 'Money, Guns, & Coffee',
+        style: 'Saison / Farmhouse Ale',
+        score: 3.553
+      },
+      {
+        bid: 381227,
+        name: 'Shark Meets Hipster',
+        style: 'American Pale Wheat Ale',
+        score: 3.635
+      },
+      {
+        bid: 24904,
+        name: 'Bloom',
+        style: 'Cider',
+        score: 3.691
+      },
+      {
+        bid: 503019,
+        name: 'Heyoka',
+        style: 'American IPA',
+        score: 3.984
+      },
+      {
+        bid: 428413,
+        name: 'Deth\'s Tar',
+        style: 'Russian Imperial Stout',
+        score: 4.221
+      },
+      {
+        bid: 521574,
+        name: 'Christmas Ale',
+        style: 'Herbed/Spiced Beer',
+        score: 3.646
+      }
+    ]
   },
   {
     name: "Goose Island",
@@ -335,7 +493,98 @@ var brewSchema= [
     menu: "http://www.gayot.com/restaurants/menu/goose-island-brewery-chicago-il-60614_5ch99343.html",
     lat: "41.913696",
     lng: "-87.653783",
-    locbeers: []
+    locbeers: [
+      {
+        bid: 539827,
+        name: 'Candy Cane Cthulhu',
+        style: 'Imperial Oatmeal Stout',
+        score: 4.461
+      },
+      {
+        bid: 914077,
+        name: 'Coldthulu',
+        style: 'Imperial Oatmeal Stout',
+        score: 4.483
+      },
+      {
+        bid: 906455,
+        name: 'Barrel Aged Extremely Naughty Goose',
+        style: 'American Brown Ale',
+        score: 4.486
+      },
+      {
+        bid: 913647,
+        name: 'Cold Toddy',
+        style: 'Imperial / Double Brown Ale',
+        score: 3.833
+      },
+      {
+        bid: 515970,
+        name: 'Santa\'s Session',
+        style: 'Winter Ale',
+        score: 3.469
+      },
+      {
+        bid: 913664,
+        name: 'Honey And Rosemary Cran-Bruin',
+        style: 'Flanders Oud Bruin',
+        score: 3.556
+      },
+      {
+        bid: 889788,
+        name: 'Damen Silos',
+        style: 'Oatmeal Stout',
+        score: 3.582
+      },
+      {
+        bid: 875071,
+        name: 'Shred the Gnar',
+        style: 'Imperial / Double IPA',
+        score: 3.814
+      },
+      {
+        bid: 914399,
+        name: 'Pecan Pie Barrel Aged Barley Wine',
+        style: 'American Barleywine',
+        score: 4.047
+      },
+      {
+        bid: 914728,
+        name: 'British Invader',
+        style: 'English IPA',
+        score: 3.417
+      },
+      {
+        bid: 384214,
+        name: 'All Purpose IPA',
+        style: 'American IPA',
+        score: 3.608
+      },
+      {
+        bid: 474233,
+        name: 'Autobahn',
+        style: 'German Pilsner',
+        score: 3.334
+      },
+      {
+        bid: 815325,
+        name: 'The Grouch',
+        style: 'Imperial / Double Pilsner',
+        score: 3.451
+      },
+      {
+        bid: 900563,
+        name: 'Barrel-Aged Barleywine',
+        style: 'American Barleywine',
+        score: 4.269
+      },
+      {
+        bid: 43152,
+        name: 'King Henry',
+        style: 'English Barleywine',
+        score: 4.718
+      }
+    ]
   },
   {
     name: "Begyle Brewing Company",
@@ -345,7 +594,74 @@ var brewSchema= [
     menu: null,
     lat: "41.955284",
     lng: "-87.674506",
-    locbeers: []
+    locbeers: [
+      {
+        bid: 912943,
+        name: 'Dr. Dreidel\'s Imperial Hanukkah Porter',
+        style: 'Porter',
+        score: 3.99
+      },
+      {
+        bid: 633829,
+        name: 'Tough Guy',
+        style: 'American Brown Ale',
+        score: 3.619
+      },
+      {
+        bid: 588404,
+        name: 'Free Bird',
+        style: 'American Pale Ale',
+        score: 3.614
+      },
+      {
+        bid: 217591,
+        name: 'Crash Landed',
+        style: 'American Pale Wheat Ale',
+        score: 3.59
+      },
+      {
+        bid: 383885,
+        name: 'Don\'t Bring Me Down, Zeus!',
+        style: 'Imperial / Double IPA',
+        score: 3.827
+      },
+      {
+        bid: 217197,
+        name: 'Begyle Blonde Ale',
+        style: 'American Blonde Ale',
+        score: 3.522
+      },
+      {
+        bid: 913980,
+        name: 'Dr. Dreidel\'s Imperial Hanukkah Porter',
+        style: 'Imperial / Double Porter',
+        score: 0
+      },
+      {
+        bid: 278991,
+        name: 'Hophazardly IPA',
+        style: 'American IPA',
+        score: 3.875
+      },
+      {
+        bid: 260909,
+        name: 'Flannel Pajamas',
+        style: 'Oatmeal Stout',
+        score: 3.561
+      },
+      {
+        bid: 359084,
+        name: 'Oh Hey!',
+        style: 'English Porter',
+        score: 3.713
+      },
+      {
+        bid: 521574,
+        name: 'Christmas Ale',
+        style: 'Herbed/Spiced Beer',
+        score: 3.646
+      }
+    ]
   },
   {
     name: "Piece Brewery & Pizzeria",
@@ -355,7 +671,91 @@ var brewSchema= [
     menu: "http://www.viewmenu.com/piece/menu",
     lat: "41.910327",
     lng: "-87.676104",
-    locbeers: []
+    locbeers: [
+      {
+        bid: 11708,
+        name: 'Dark-N-Curvy',
+        style: 'Dunkelweizen',
+        score: 3.7
+      },
+      {
+        bid: 15406,
+        name: 'Golden Arm',
+        style: 'Kölsch',
+        score: 3.34
+      },
+      {
+        bid: 901866,
+        name: 'Ramber',
+        style: 'American Amber / Red Ale',
+        score: 3.48
+      },
+      {
+        bid: 43158,
+        name: 'Full Frontal Pale Ale',
+        style: 'American Pale Ale',
+        score: 3.658
+      },
+      {
+        bid: 11207,
+        name: 'Festivus',
+        style: 'Belgian Brown Ale ',
+        score: 3.632
+      },
+      {
+        bid: 1573,
+        name: 'Hitachino Nest White Ale',
+        style: 'Witbier',
+        score: 3.647
+      },
+      {
+        bid: 10227,
+        name: 'Camel Toe',
+        style: 'Imperial / Double IPA',
+        score: 3.957
+      },
+      {
+        bid: 100924,
+        name: 'Roland the Headless Assistant Brewer',
+        style: 'Oatmeal Stout',
+        score: 3.667
+      },
+      {
+        bid: 4044,
+        name: 'Maudite',
+        style: 'Belgian Strong Dark Ale',
+        score: 3.804
+      },
+      {
+        bid: 910924,
+        name: 'Rambler',
+        style: 'American Amber / Red Ale',
+        score: 0 },
+      {
+        bid: 229146,
+        name: 'Bare Naked Organic Cider',
+        style: 'Cider',
+        score: 3.513
+      },
+      {
+        bid: 183532,
+        name: 'The Weight',
+        style: 'American Pale Ale',
+        score: 3.939
+      },
+      {
+        bid: 4740,
+        name: 'Brown Shugga\'',
+        style: 'American Strong Ale',
+        score: 3.888
+      },
+      {
+        bid: 5411,
+        name: 'Alpha Klaus',
+        style: 'American Porter',
+        score: 3.926
+      }
+    ]
   },
   {
     name: "Lagunitas Brewing Company Chicago",
@@ -365,7 +765,98 @@ var brewSchema= [
     menu: null,
     lat: "41.857202",
     lng: "-87.691988",
-    locbeers: []
+    locbeers: [
+      {
+        bid: 915092,
+        name: 'Wet Hop Fusion 26 Ale',
+        style: 'American Pale Ale',
+        score: 4.041
+      },
+      {
+        bid: 4740,
+        name: 'Brown Shugga\'',
+        style: 'American Strong Ale',
+        score: 3.888
+      },
+      {
+        bid: 584134,
+        name: 'Hairy Eyeball (2014)',
+        style: 'American Strong Ale',
+        score: 3.775
+      },
+      {
+        bid: 901719,
+        name: 'Fusion 26',
+        style: 'American Pale Ale',
+        score: 4.043
+      },
+      {
+        bid: 1351,
+        name: 'Hairy Eyeball Ale',
+        style: 'American Strong Ale',
+        score: 3.683
+      },
+      {
+        bid: 1071,
+        name: 'Censored Rich Copper Ale (aka The Kronik)',
+        style: 'American Amber / Red Ale',
+        score: 3.596
+      },
+      {
+        bid: 24331,
+        name: 'Imperial Red Ale',
+        style: 'Imperial / Double Red Ale',
+        score: 3.872
+      },
+      {
+        bid: 6725,
+        name: 'Pils',
+        style: 'Czech Pilsener',
+        score: 3.432
+      },
+      {
+        bid: 285026,
+        name: 'Lagunitas Sucks',
+        style: 'Imperial / Double IPA',
+        score: 4.122
+      },
+      {
+        bid: 1070,
+        name: 'Imperial Stout',
+        style: 'Russian Imperial Stout',
+        score: 3.902
+      },
+      {
+        bid: 6407,
+        name: 'New Dogtown Pale Ale',
+        style: 'American Pale Ale',
+        score: 3.658
+      },
+      {
+        bid: 198572,
+        name: 'DayTime Fractional IPA',
+        style: 'American IPA',
+        score: 3.714
+      },
+      {
+        bid: 5180,
+        name: 'Hop Stoopid',
+        style: 'Imperial / Double IPA',
+        score: 3.982
+      },
+      {
+        bid: 5771,
+        name: 'Maximus',
+        style: 'Imperial / Double IPA',
+        score: 3.95
+      },
+      {
+        bid: 6388,
+        name: 'A Little Sumpin\' Wild Ale',
+        style: 'Belgian IPA',
+        score: 3.862
+      }
+    ]
   }
 ];
 //SCHEMA NOTES
@@ -440,7 +931,7 @@ router.get('/untappd', function(req, res) {
   var utcid= '4149526DC899177640B7E25BBB0D40D8A7F32E48';
   var utcs= 'E0B8914BF88C67A8645643B978BE65235BED4686';
   var holdarr= [];
-  request({url: 'https://api.untappd.com/v4/venue/info/'+brewSchema[3].utvid+'?client_id='+utcid+'&client_secret='+utcs, json: true}, function (error, response, body) {
+  request({url: 'https://api.untappd.com/v4/venue/info/'+brewSchema[8].utvid+'?client_id='+utcid+'&client_secret='+utcs, json: true}, function (error, response, body) {
     if(!error&& response.statusCode== 200) {
       console.log(body.response.venue.top_beers);
       res.send(body);

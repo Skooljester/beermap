@@ -1,11 +1,15 @@
 mixin panel(index, val, bool, ol)
   div(role="tabpanel", id="#{index}", class="#{bool}", data-addr="#{val.address}", data-lat="#{val.lat}", data-lng="#{val.lng}").tab-pane
-    h2= val.name
-    p= val.phone
-    section
-      include _beerList
-    if index!= ol-1
-      button(type= "button").btn.btn-primary.nextStep Next Location
+    div.panel.panel-default
+      div.panel-heading
+        h2= val.name
+        a(href="tel:#{val.phone}")= val.phone
+      section.panel-body
+        include _beerList
+      if index!= ol-1
+        div.panel-footer
+          button(type= "button").btn.btn-primary.nextStep.pull-right Next Location
+          div.clearfix
 
 section#tourWalk
   div(role="tabpanel")
