@@ -240,12 +240,12 @@ $(function() {
       }
     },
     tileSpace: function() { //Spaces the tiles properly initially and after sort
-      var c= 2;
+      var c= 1;
       $('.brewery').not(":hidden").attr('style', ''); //Resets styles on all shown brewery tiles
       $('.brewery').not(":hidden").each(function(i) {
         if(i== c) {
           $(this).css('margin-right', 0);
-          c+= 3;
+          c+= 2;
         }
       });
     },

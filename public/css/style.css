@@ -1,5 +1,4 @@
 body {
-  padding: 0 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -39,7 +38,8 @@ ul {
   overflow-y: scroll;
 }
 .brewery {
-  width: 30%; /*maybe change to 45*/
+  /*width: 30%;*/ /*maybe change to 45*/
+  width: 47.5%;
   margin-right: 5%;
   display: inline-block; /*float left may work better if the heights are different*/
 }

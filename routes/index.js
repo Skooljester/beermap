@@ -370,7 +370,7 @@ var brewSchema= [
 ];
 //SCHEMA NOTES
 /*
-- beer list
+~ beer list
 x name
 x location + address
 ? type
