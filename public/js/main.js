@@ -63,6 +63,10 @@ $(function() {
       $.get('/swap', function(data) {
         self.swapArr= data;
       });
+      // $.get('/untappd', function(data) {
+      //   console.log("hi");
+      //   console.log(data);
+      // });
       self.binding();
       self.listeners();
       self.tileSpace();

@@ -3,11 +3,7 @@ mixin panel(index, val, bool, ol)
     h2= val.name
     p= val.phone
     section
-      ul
-        li beer 1
-        li beer 2
-        li beer 3
-        li etc.
+      include _beerList
     if index!= ol-1
       button(type= "button").btn.btn-primary.nextStep Next Location
 
