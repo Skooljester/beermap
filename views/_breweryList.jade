@@ -1,15 +1,30 @@
+mixin breweryTile(b, index)
+  article.brewery.panel.panel-default
+    header.panel-heading
+      h1(data-ind= index, data-lat= b.lat, data-lng= b.lng, data-addr= b.address)= b.name
+      button(type= "button").btn.btn-primary.addBrew Add Brewery
+    div.details.panel-body
+      p= b.address
+      p= b.phone
+      if b.menu
+        //-a(href="#{b.menu}") Menu
+
 section.breweryList
   header
     h1 Breweries
-    label(for="brewSearch") Search for Breweries
-    input(type="text", class="form-control", placeholder="Search for a brewery")#brewSearch
-  each b, index in breweries
-    article.brewery.panel.panel-default
-      header.panel-heading
-        h1(data-ind= index, data-lat= b.lat, data-lng= b.lng, data-addr= b.address)= b.name
-        button(type= "button").btn.btn-primary.addBrew Add Brewery
-      div.details.panel-body
-        p= b.address
-        p= b.phone
-        if b.menu
-          //-a(href="#{b.menu}") Menu
+    div.form-group
+      div.input-group
+        label(for="brewSearch").sr-only Search for Breweries
+        div.input-group-addon Search for Breweries
+        input(type="text", class="form-control", placeholder="Search for a brewery")#brewSearch
+  //- - for (var i= 0; i< breweries.length; i++)
+  //-   - var j= i+1
+  //-   if i%2== 0
+  //-     div.row
+  //-       +breweryTile(breweries[i], i)
+  //-       unless j== breweries.length
+  //-         +breweryTile(breweries[j], j)
+  div.row
+    each b, index in breweries
+      div.col-md-6
+        +breweryTile(b, index)

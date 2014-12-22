@@ -39,9 +39,9 @@ ul {
 }
 .brewery {
   /*width: 30%;*/ /*maybe change to 45*/
-  width: 47.5%;
+  /*width: 47.5%;
   margin-right: 5%;
-  display: inline-block; /*float left may work better if the heights are different*/
+  display: inline-block;*/ /*float left may work better if the heights are different*/
 }
 /*.brewery:nth-child(3n+1) {
   margin-right: 0;
