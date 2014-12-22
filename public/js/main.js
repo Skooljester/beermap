@@ -69,7 +69,6 @@ $(function() {
       // });
       self.binding();
       self.listeners();
-      self.tileSpace();
     },
     binding: function() {
       var self= this;
@@ -125,17 +124,22 @@ $(function() {
         var holdarr= [];
         if($(this).val().length>= 3) {
           $('.brewery').each(function() {
-            if($(this).find('header h1').text().match(sval)) {
-              holdarr.push($(this));
+            // if($(this).find('header h1').text().match(sval)) {
+            //   holdarr.push($(this));
+            // }
+            if(!$(this).find('header h1').text().match(sval)) {
+              $(this).parent().fadeOut(300);
             }
           });
-          $('.brewery').hide();
-          for(var i= 0; i< holdarr.length; i++)
-            holdarr[i].show();
+          // $('.brewery').parent().hide();
+          // for(var i= 0; i< holdarr.length; i++) {
+          //   holdarr[i].parent().show();
+          // }
         }
-        else
-          $('.brewery').show();
-        self.tileSpace();
+        else {
+          // $('.brewery').parent().show();
+          $('.brewery').parent().fadeIn(300);
+        }
       });
       $('body').on('click', '.markerAdd', function() {
         var hold= $(this);
@@ -238,16 +242,6 @@ $(function() {
         obj.removeClass('btn-success').addClass('btn-primary').prop('disabled', false);
         obj.text('Add Brewery');
       }
-    },
-    tileSpace: function() { //Spaces the tiles properly initially and after sort
-      var c= 1;
-      $('.brewery').not(":hidden").attr('style', ''); //Resets styles on all shown brewery tiles
-      $('.brewery').not(":hidden").each(function(i) {
-        if(i== c) {
-          $(this).css('margin-right', 0);
-          c+= 2;
-        }
-      });
     },
     nameAddrSwap: function(addr) {
       var self= this;

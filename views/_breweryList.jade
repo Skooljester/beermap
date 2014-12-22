@@ -28,3 +28,5 @@ section.breweryList
     each b, index in breweries
       div.col-md-6
         +breweryTile(b, index)
+      if index%2!= 0
+        div.clearfix.visible-md-block.visible-lg-block
