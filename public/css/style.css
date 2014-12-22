@@ -61,10 +61,16 @@ ul {
 }
 #plannedRoute li {
   display: inline-block;
+  padding-right: 10px;
 }
 /*#plannedRoute li::after {
   content: ">>";
 }*/
+#transportSelect button:first-child {
+  border-radius: 0px 4px 4px 0px;
+  -moz-border-radius: 0px 4px 4px 0px;
+  -webkit-border-radius: 0px 4px 4px 0px;
+}
 #saveStart {
   display: inline-block;
 }

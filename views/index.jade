@@ -4,17 +4,19 @@ block content
   header
     div.page-header
       h1 Chicago Brewery Tours
-    h2.tourListTitle Tour List
-      button(type= "button", data-loading-text="Mapping...", disabled= true).btn.btn-success.mapTour Map Route
-    ul.tourList
+  h2.tourListTitle Tour List
+    button(type= "button", data-loading-text="Mapping...", disabled= true).btn.btn-success.mapTour Map Route
+  ul.tourList.list-group
 
-  div(role="group").btn-group#transportSelect
-    button(type="button", data-mode="bicycling", data-uber="false", disabled=false).btn.btn-default Biking
-    button(type="button", data-mode="driving", data-uber="false", disabled=true).btn.btn-success.active Driving
-    button(type="button", data-mode="driving", data-uber="true", disabled=false).btn.btn-default Uber
+  div.input-group
+    span.input-group-addon Transportation Mode:
+    div(role="group").btn-group#transportSelect
+      button(type="button", data-mode="bicycling", data-uber="false", disabled=false).btn.btn-default Biking
+      button(type="button", data-mode="driving", data-uber="false", disabled=true).btn.btn-success.active Driving
+      button(type="button", data-mode="driving", data-uber="true", disabled=false).btn.btn-default Uber
 
   div#directions_panel
-    ul.list-group#plannedRoute
+    ul#plannedRoute
 
   div#map-canvas
 

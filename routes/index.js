@@ -411,7 +411,7 @@ var brewSchema= [
   {
     name: "DryHop Brewers",
     utvid: "225374",
-    address: "3155 North Broadway Street, Chicago, IL 60657", //correct address is 3155, but results are fucked if 3155 used
+    address: "3156 North Broadway Street, Chicago, IL 60657", //correct address is 3155, but results are fucked sometimes if 3155 used
     phone: "(773) 857-3155",
     menu: "http://www.urbanspoon.com/cities/2-chicago/restaurants/1757835-dryhop-brewers/menu",
     lat: "41.939351",

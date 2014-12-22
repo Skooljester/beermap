@@ -120,21 +120,13 @@ $(function() {
         console.log("Save code goes here");
       });
       $('#brewSearch').on('keyup', function() {
-        var sval= $(this).val();
-        var holdarr= [];
+        var sval= $(this).val().toLowerCase();
         if($(this).val().length>= 3) {
           $('.brewery').each(function() {
-            // if($(this).find('header h1').text().match(sval)) {
-            //   holdarr.push($(this));
-            // }
-            if(!$(this).find('header h1').text().match(sval)) {
+            if(!$(this).find('header h1').text().toLowerCase().match(sval)) {
               $(this).parent().fadeOut(300);
             }
           });
-          // $('.brewery').parent().hide();
-          // for(var i= 0; i< holdarr.length; i++) {
-          //   holdarr[i].parent().show();
-          // }
         }
         else {
           // $('.brewery').parent().show();
@@ -312,34 +304,10 @@ $(function() {
             $('.brewery .btn-success').each(function() { //loop through buttons and change their state
               self.btnStateChange(false, $(this));
             });
-            $('.tourList').empty();
-            
+            $('.tourList').empty();   
             directionsDisplay.setDirections(response);
-            
-            //SORT LIST AT TOP -- messy as fuck, doesn't work if you remove and re-add breweries
-            function sortTourList() {
-              var l= route.legs.length-1;
-              $(".tourList li[data-addr='"+route.legs[0].start_address.replace(/\, USA/, "")+"']").append('<a href="#">Start</a>');
-              $(".tourList li[data-addr='"+route.legs[l].end_address.replace(/\, USA/, "")+"']").append('<a href="#">Final</a>');
-              var first= $(".tourList li[data-addr='"+route.legs[0].start_address.replace(/\, USA/, "")+"']").clone(true, true);
-              var last= $(".tourList li[data-addr='"+route.legs[l].end_address.replace(/\, USA/, "")+"']").clone(true, true);
-              var holdarr= [];
-              for(var i= 1; i< route.legs.length; i++) {
-                holdarr.push($(".tourList li[data-addr='"+route.legs[i].start_address.replace(/\, USA/, "")+"']").data('order', i).clone(true, true));
-              }
-              first.data('order', -1);
-              last.data('order', -2);
-
-              $('.tourList').empty();
-              $('.tourList').prepend(first);
-              for(var j= 0; j< holdarr.length; j++) {
-                $('.tourList').append(holdarr[j].append('<a href="#">'+holdarr[j].data('order')+'</a>'));
-              }
-              $('.tourList').append(last);
-            }
             //END TOP SORT LIST
             var route= response.routes[0];
-            //var summaryPanel = document.getElementById("directions");
             // For each route, display summary information.
             directionsDisplay.setPanel(document.getElementById('directions'));
             if($('#plannedRoute li'))
@@ -349,14 +317,8 @@ $(function() {
               if((j+1)== route.legs.length)
                 $('#plannedRoute').append('<li>'+self.nameAddrSwap(route.legs[j].end_address)+'</li>');
             }
-            $('#directions_panel').append('<div role="group" class="btn-group" id="saveStart"><button type="button" class="btn btn-default" id="tourSave">Save Route</button><button type="button" class="btn btn-success" id="tourLaunch">Start Crawl</button></div>');            
-            //Clear tour list after this or leave it?
-            // var s= [route.legs[0].start_location.k, route.legs[0].start_location.D];
-            // var e= [route.legs[1].start_location.k, route.legs[1].start_location.D];
-            // $.get('/uber', {startCo: s, endCo: e}, function(data) {
-            //   console.log(data);
-            // });
-            // Uber API not being used right now
+            //$('#directions_panel').append('<div role="group" class="btn-group" id="saveStart"><button type="button" class="btn btn-default" id="tourSave">Save Route</button><button type="button" class="btn btn-success" id="tourLaunch">Start Crawl</button></div>');            
+            $('#directions_panel').append('<div role="group" class="btn-group" id="saveStart"><button type="button" class="btn btn-success" id="tourLaunch">Start Crawl</button></div>');
           }
         });
       }
