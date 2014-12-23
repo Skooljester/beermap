@@ -7,6 +7,27 @@ db.once('open', function (callback) {
   // yay!
 });
 
+// ----- SCHEMAS -----
+var userSchema = mongoose.Schema({
+  username: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  admin: {
+    type: Boolean,
+    default: false
+  }
+});
 var beerSchema= mongoose.Schema({
   bid: {
     type: Number,
@@ -16,7 +37,6 @@ var beerSchema= mongoose.Schema({
   style: String,
   score: Number
 });
-
 var brewSchema= mongoose.Schema({
   name: String,
   utvid: {
@@ -30,12 +50,16 @@ var brewSchema= mongoose.Schema({
   lng: String,
   locbeers: [beerSchema]
 });
+// ----- END SCHEMAS -----
 
 var Brewery= mongoose.model('Brewery', brewSchema);
 
+// ----- START SCHEMA EXPORTS -----
 module.exports.Brewery= Brewery;
+// ----- END SCHEMA EXPORTS -----
 
-module.exports.getAll= function(cb){ 
+// ----- START FUNCTION EXPORTS -----
+module.exports.getAll= function(cb){ //only returns breweries
   Brewery.find(function (err, breweries) {
     if (err) return console.error(err);
     cb(breweries);
@@ -64,3 +88,4 @@ module.exports.upd= function(schemaName, findData, updateData, callback) {
     callback();
   });
 };
+// ----- END FUNCTION EXPORTS -----
