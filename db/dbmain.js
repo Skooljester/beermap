@@ -1,6 +1,6 @@
 var mongoose= require('mongoose');
 mongoose.connect('mongodb://heroku_app32604585:qe861rle9hc06ojvfe3valfq2g@ds047040.mongolab.com:47040/heroku_app32604585');
-//mongoose.connect('mongodb://localhost/test3');
+//mongoose.connect('mongodb://localhost/test4');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function (callback) {
@@ -53,5 +53,14 @@ module.exports.find = function(schemaName, findData, callback) {
       return console.log(err);
     }
     callback(results);
+  });
+};
+module.exports.upd= function(schemaName, findData, updateData, callback) {
+  schemaName.update(findData, updateData, function(err, aff) {
+    if(err) {
+      return console.log(err);
+    }
+    console.log('affected rows %d', aff);
+    callback();
   });
 };

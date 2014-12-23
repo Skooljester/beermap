@@ -1,0 +1,56 @@
+extends layout
+
+block content
+  header.page-header
+    h1 Admin Panel
+  ul.list-group
+    li.list-group-item
+      button(type="button").btn.btn-default#forceSync Force Beer Resync
+    li.list-group-item
+      h2 Add Brewery
+      form#addBrewForm
+        div.form-group
+          label(for="brewName") Brewery name
+          input(type="text", placeholder="Enter brewery name").form-control#brewName
+        div.form-group
+          label(for="brewVid") Brewery venue ID, comes from Untappd
+          input(type="number", placeholder="Enter brewery vid").form-control#brewVid
+        div.form-group
+          label(for="brewAddr") Brewery address
+          input(type="text", placeholder="Enter brewery address").form-control#brewAddr
+        div.form-group
+          label(for="brewTel") Brewery phone number
+          input(type="text", placeholder="Enter brewery phone number").form-control#brewTel
+        div.form-group
+          label(for="brewUrl") Brewery website URL
+          input(type="text", placeholder="Enter brewery website URL").form-control#brewUrl
+        div.form-group
+          label(for="brewLat") Brewery latitude
+          input(type="number", placeholder="Enter brewery latitude").form-control#brewLat
+          label(for="brewLng") Brewery longitude
+          input(type="number", placeholder="Enter brewery longitude").form-control#brewLng
+        button(type="button", data-loading-text="Adding...").btn.btn-default#addBrew Add Brewery
+    li.list-group-item
+      h2 Edit Brewery Info
+      ul.list-group#brewEdit
+        each b, ind in breweries
+          li.list-group-item
+            h3= b.name
+            p(data-utvid= "#{b.utvid}").utvid Brewery venue ID:
+              span= b.utvid
+            p.address Brewery address:
+              span= b.address
+            p.phone Brewery phone:
+              span= b.phone
+            p.url Brewery website URL:
+              span= b.url
+            p.lat Brewery latitude:
+              span= b.lat
+            p.lng Brewery longitude:
+              span= b.lng
+            button(type="button").btn.btn-default.brewEditBtn Edit information
+
+  script(src='/js/admin.js')
+
+block footer
+  include footer
