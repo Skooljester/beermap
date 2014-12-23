@@ -29,9 +29,27 @@ router.post('/addBrew', function(req, res) {
 /* POST update for brewery */
 router.post('/updateBrew', function(req, res) {
   var updObj= req.body;
-  db.upd(db.Brewery, {utvid: updObj.utvid}, updObj, function() {
+  db.upd(db.Brewery, {utvid: updObj.utvid}, updObj, function() { //Finding brewery like this doesn't let you update utvid
     console.log("updated");
     res.send("Updated");
+  });
+});
+
+/* POST utvid update */
+router.post('/updateUtvid', function(req, res) {
+  console.log("hello?");
+  var oldu= req.body.oldutvid;
+  var newu= req.body.newutvid;
+  db.upd(db.Brewery, {utvid: oldu}, {utvid: newu}, function() { //Finding brewery like this doesn't let you update utvid
+    console.log("updated");
+    res.send("Updated");
+  });
+});
+
+/* Delete brewery */
+router.get('deleteBrew', function(req, res) {
+  db.del(db.Brewery, {utvid: req.body.utvid}, function() {
+    res.redirect("/admin");
   });
 });
 

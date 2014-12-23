@@ -28,19 +28,32 @@ $(function() {
       });
       $('.brewEditBtn').on('click', function() {
         $(this).parent().find('span').each(function() {
-          $(this).parent().append('<input type="text" placeholder="'+$(this).text()+'" />');
+          $(this).parent().append('<input type="text" class="form-control" placeholder="'+$(this).text()+'" />');
           $(this).remove();
         });
-        $(this).parent().append('<div role="group" class="btn-group editGroup"><button type="button" class="btn btn-warning editCancel">Cancel changes</button><button type="button" class="btn btn-success editUpdate">Update</button></div>');
+        $(this).parent().append('<div role="group" class="btn-group editGroup"><button type="button" class="btn btn-warning editCancel">Cancel changes</button><button type="button" class="btn btn-danger editDelete">Delete entry</button><button type="button" class="btn btn-primary editUtvid">Change utvid</button><button type="button" class="btn btn-success editUpdate">Update</button></div>');
         $(this).hide();
       });
       $('#brewEdit').on('click', '.editCancel', function() {
-        $(this).parent().parent().find('input').each(function() {
-          $(this).parent().append('<span>'+$(this).attr('placeholder')+'</span>');
+        $(this).parent().parent().find('input').not('.nameinp').each(function() {
+          $(this).parent().append('<span class="editTextHold">'+$(this).attr('placeholder')+'</span>');
           $(this).remove();
         });
         $(this).parent().siblings('.brewEditBtn').show();
         $(this).parent().remove();
+      });
+      $('#brewEdit').on('click', '.editDelete', function() {
+        var utvid= $(this).parent().siblings('p.utvid').data('utvid');
+        if(confirm("Are you sure?")) {
+          $.get('/admin/deleteBrew', function(data) {
+            console.log("deleted");
+          });
+        }
+      });
+      $('#brewEdit').on('click', '.editUtvid', function() {
+        $.post('/admin/updateUtvid', {oldutvid: $('.utvid').data('utvid'), newutvid: $('.utvid').find('input').val()}, function(data) {
+          console.log(data);
+        });
       });
       $('#brewEdit').on('click', '.editUpdate', function() {
         var updObj= {

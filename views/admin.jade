@@ -1,5 +1,20 @@
 extends layout
 
+block header
+  nav(role="navigation").navbar.navbar-default.navbar-static-top
+    div.container
+      div.navbar-header
+        a(href="/").navbar-brand Chicago Brewery Tours
+      div.collapse.navbar-collapse
+        ul.nav.navbar-nav
+          li
+            a(href="/") Main site
+          li
+            a(href="/admin") Admin Dashboard
+        div.btn-group.nav.navbar-nav.navbar-right
+          button(type="button").btn.btn-default.navbar-btn Log In
+          button(type="button").btn.btn-default.navbar-btn Sign Up
+
 block content
   header.page-header
     h1 Admin Panel
@@ -36,18 +51,20 @@ block content
         each b, ind in breweries
           li.list-group-item
             h3= b.name
+            p.name Brewery name:
+              span.editTextHold= b.name
             p(data-utvid= "#{b.utvid}").utvid Brewery venue ID:
-              span= b.utvid
+              span.editTextHold= b.utvid
             p.address Brewery address:
-              span= b.address
+              span.editTextHold= b.address
             p.phone Brewery phone:
-              span= b.phone
+              span.editTextHold= b.phone
             p.url Brewery website URL:
-              span= b.url
+              span.editTextHold= b.url
             p.lat Brewery latitude:
-              span= b.lat
+              span.editTextHold= b.lat
             p.lng Brewery longitude:
-              span= b.lng
+              span.editTextHold= b.lng
             button(type="button").btn.btn-default.brewEditBtn Edit information
 
   script(src='/js/admin.js')

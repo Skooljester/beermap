@@ -104,9 +104,9 @@ router.get('/uber', function(req, res) { //hits Uber API to get prices from one 
   var s= req.query.startCo;
   var e= req.query.endCo;
   request({url: 'https://api.uber.com/v1/estimates/price?server_token='+ukey+'&start_latitude='+s[0]+'&start_longitude='+s[1]+'&end_latitude='+e[0]+'&end_longitude='+e[1], json: true}, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
+    if (!error && response.statusCode== 200) {
       res.render('_uberList', {ubl: body.prices}, function(err, html) {
-        res.send(html)
+        res.send(html);
       });
     }
   });

@@ -88,4 +88,12 @@ module.exports.upd= function(schemaName, findData, updateData, callback) {
     callback();
   });
 };
+module.exports.del = function(schemaName, findData, callback) {
+  schemaName.remove(findData, function(err) {
+    if(err) {
+      return console.log(err);
+    }
+    callback();
+  })
+};
 // ----- END FUNCTION EXPORTS -----
