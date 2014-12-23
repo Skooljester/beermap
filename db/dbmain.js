@@ -35,10 +35,9 @@ var Brewery= mongoose.model('Brewery', brewSchema);
 
 module.exports.Brewery= Brewery;
 
-module.exports.tester= function(cb){ 
+module.exports.getAll= function(cb){ 
   Brewery.find(function (err, breweries) {
     if (err) return console.error(err);
-    //console.log(breweries);
     cb(breweries);
   });
 };
