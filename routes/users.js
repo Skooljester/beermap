@@ -73,7 +73,11 @@ passport.use(new LocalStrategy(function(username, password, done) {
 router.get('/', function(req, res) {
   res.send("Something");
 });
-
+router.get('/login', function(req, res) {
+  res.render('login', {
+    title: 'Login'
+  });
+});
 router.post('/login', function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
     if (err) { return next(err) }
@@ -91,5 +95,5 @@ router.post('/login', function(req, res, next) {
 module.exports = router;
 module.exports.checkAuth= function (req, res, next) {
   if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login');
+  res.redirect('/users/login');
 };
