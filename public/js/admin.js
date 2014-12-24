@@ -5,6 +5,11 @@ $(function() {
       self.binding();
     },
     binding: function() {
+      $('#loginPost').on('click', function() {
+        $.post('/users/login', {username: $('#username').val(), pass: $('#password').val()}, function() {
+          console.log("posted");
+        });
+      });
       $('#forceSync').on('click', function() {
         $.get('/admin/forceUpdate', function(data) {
           console.log(data);

@@ -69,18 +69,6 @@ passport.use(new LocalStrategy(function(username, password, done) {
 }));
 // ---------- END LOGIN STUFF ----------
 
-var infoHold = {
-  username: "admin",
-  email: "a@b.com",
-  password: "root",
-  admin: true
-};
-function callback() {
-  console.log("worked");
-}
-db.create(db.User, infoHold, callback);
-
-
 /* GET users listing. */
 router.get('/', function(req, res) {
   res.send("Something");
@@ -103,5 +91,5 @@ router.post('/login', function(req, res, next) {
 module.exports = router;
 module.exports.checkAuth= function (req, res, next) {
   if (req.isAuthenticated()) { return next(); }
-  res.redirect('/');
+  res.redirect('/login');
 };
