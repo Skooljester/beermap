@@ -5,8 +5,9 @@ $(function() {
       self.binding();
     },
     binding: function() {
-      $('#loginPost').on('click', function() {
-        $.post('/users/login', {username: $('#username').val(), pass: $('#password').val()}, function() {
+      $('#postLogin').on('click', function() {
+        $.post('/users/login', {username: $('#username').val(), password: $('#password').val()}, function(data) {
+          console.log(data);
           console.log("posted");
         });
       });

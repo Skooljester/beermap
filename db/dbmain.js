@@ -1,6 +1,7 @@
 var mongoose= require('mongoose');
+var bcrypt= require('bcrypt');
 mongoose.connect('mongodb://heroku_app32604585:qe861rle9hc06ojvfe3valfq2g@ds047040.mongolab.com:47040/heroku_app32604585');
-//mongoose.connect('mongodb://localhost/test4');
+//mongoose.connect('mongodb://localhost/test');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function (callback) {
@@ -8,26 +9,6 @@ db.once('open', function (callback) {
 });
 
 // ----- SCHEMAS -----
-var userSchema = mongoose.Schema({
-  username: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  password: {
-    type: String,
-    required: true
-  },
-  admin: {
-    type: Boolean,
-    default: false
-  }
-});
 var beerSchema= mongoose.Schema({
   bid: {
     type: Number,
@@ -56,8 +37,6 @@ var Brewery= mongoose.model('Brewery', brewSchema);
 
 // ----- START SCHEMA EXPORTS -----
 module.exports.Brewery= Brewery;
-module.exports.User = mongoose.model('User', userSchema);
-module.exports.userSchema= userSchema;
 // ----- END SCHEMA EXPORTS -----
 
 // ----- START FUNCTION EXPORTS -----
