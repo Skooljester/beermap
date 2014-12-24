@@ -1,5 +1,4 @@
 var mongoose= require('mongoose');
-var bcrypt= require('bcrypt');
 mongoose.connect('mongodb://heroku_app32604585:qe861rle9hc06ojvfe3valfq2g@ds047040.mongolab.com:47040/heroku_app32604585');
 //mongoose.connect('mongodb://localhost/test');
 var db = mongoose.connection;
