@@ -3,44 +3,50 @@ var request= require('request');
 var db= require('../db/dbmain');
 var router= express.Router();
 
-var brewSchema= [
-  {
-    name: "Revolution Brewing",
-    address: "2323 North Milwaukee Avenue, Chicago, IL 60647"
-  },
-  {
-    name: "Half Acre Beer Company",
-    address: "4257 North Lincoln Avenue, Chicago, IL 60618"
-  },
-  {
-    name: "Haymarket Pub & Brewery",
-    address: "737 West Randolph Street, Chicago, IL 60661"
-  },
-  {
-    name: "Atlas Brewing Company",
-    address: "2747 North Lincoln Avenue, Chicago, IL 60614"
-  },
-  {
-    name: "DryHop Brewers",
-    address: "3155 North Broadway Street, Chicago, IL 60657"
-  },
-  {
-    name: "Goose Island",
-    address: "1800 North Clybourn Avenue, Chicago, IL 60614"
-  },
-  {
-    name: "Begyle Brewing Company",
-    address: "1800 West Cuyler Avenue, Chicago, IL 60613"
-  },
-  {
-    name: "Piece Brewery & Pizzeria",
-    address: "1927 West North Avenue, Chicago, IL 60622"
-  },
-  {
-    name: "Lagunitas Brewing Company Chicago",
-    address: "1843 South Washtenaw Avenue, Chicago, IL 60608"
+// var brewSchema= [
+//   {
+//     name: "Revolution Brewing",
+//     address: "2323 North Milwaukee Avenue, Chicago, IL 60647"
+//   },
+//   {
+//     name: "Half Acre Beer Company",
+//     address: "4257 North Lincoln Avenue, Chicago, IL 60618"
+//   },
+//   {
+//     name: "Haymarket Pub & Brewery",
+//     address: "737 West Randolph Street, Chicago, IL 60661"
+//   },
+//   {
+//     name: "Atlas Brewing Company",
+//     address: "2747 North Lincoln Avenue, Chicago, IL 60614"
+//   },
+//   {
+//     name: "DryHop Brewers",
+//     address: "3155 North Broadway Street, Chicago, IL 60657"
+//   },
+//   {
+//     name: "Goose Island",
+//     address: "1800 North Clybourn Avenue, Chicago, IL 60614"
+//   },
+//   {
+//     name: "Begyle Brewing Company",
+//     address: "1800 West Cuyler Avenue, Chicago, IL 60613"
+//   },
+//   {
+//     name: "Piece Brewery & Pizzeria",
+//     address: "1927 West North Avenue, Chicago, IL 60622"
+//   },
+//   {
+//     name: "Lagunitas Brewing Company Chicago",
+//     address: "1843 South Washtenaw Avenue, Chicago, IL 60608"
+//   }
+// ];
+var brewSchema= [];
+db.getAll(function(breweries) {
+  for(var z= 0; z< breweries.length; z++) {
+    brewSchema.push({name: breweries[z].name, address: breweries[z].address});
   }
-];
+});
 //SCHEMA NOTES
 /*
 ~ beer list
