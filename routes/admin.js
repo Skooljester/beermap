@@ -1,10 +1,11 @@
 var express= require('express');
 var request= require('request');
 var db= require('../db/dbmain');
+var users= require('./users');
 var router = express.Router();
 
 /* GET users listing. */
-router.get('/', function(req, res) {
+router.get('/', users.checkAuth, function(req, res) {
   db.getAll(function(breweries) {
     return res.render('admin', {
       title: 'Admin Dashboard',

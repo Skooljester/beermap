@@ -56,6 +56,8 @@ var Brewery= mongoose.model('Brewery', brewSchema);
 
 // ----- START SCHEMA EXPORTS -----
 module.exports.Brewery= Brewery;
+module.exports.User = mongoose.model('User', userSchema);
+module.exports.userSchema= userSchema;
 // ----- END SCHEMA EXPORTS -----
 
 // ----- START FUNCTION EXPORTS -----
@@ -95,5 +97,15 @@ module.exports.del = function(schemaName, findData, callback) {
     }
     callback();
   })
+};
+module.exports.create = function(schemaName, createData, callback) {
+  var sub = new schemaName(createData);
+  sub.save(function(err, sub) {
+    if(err) {
+      res.send(500, "That did not work so well");
+      return console.log(err);
+    }
+    callback(sub);
+  });
 };
 // ----- END FUNCTION EXPORTS -----
