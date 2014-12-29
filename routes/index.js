@@ -41,16 +41,16 @@ var router= express.Router();
 //     address: "1843 South Washtenaw Avenue, Chicago, IL 60608"
 //   }
 // ];
-var brewSchema= updateBrew();
-function updateBrew() {
-  var brewSchemaHold= [];
-  db.getAll(function(breweries) {
-    for(var z= 0; z< breweries.length; z++) {
-      brewSchemaHold.push({name: breweries[z].name, address: breweries[z].address});
-    }
-  });
-  return brewSchemaHold;
-}
+// var brewSchema= updateBrew();
+// function updateBrew() {
+//   var brewSchemaHold= [];
+//   db.getAll(function(breweries) {
+//     for(var z= 0; z< breweries.length; z++) {
+//       brewSchemaHold.push({name: breweries[z].name, address: breweries[z].address});
+//     }
+//   });
+//   return brewSchemaHold;
+// }
 //SCHEMA NOTES
 /*
 ~ beer list
@@ -84,11 +84,13 @@ router.get('/dist', function(req, res) {
 });
 
 router.get('/swap', function(req, res) { //sends array of name, address pairs
-  var harr= [];
-  for(var i= 0; i< brewSchema.length; i++) {
-    harr.push({name: brewSchema[i].name, address: brewSchema[i].address});
-  }
-  res.send(harr);
+  db.getAll(function(breweries) {
+    var brewSchemaHold= [];
+    for(var i= 0; i< breweries.length; i++) {
+      brewSchemaHold.push({name: breweries[i].name, address: breweries[i].address});
+    }
+    res.send(harr);
+  });
 });
 
 router.get('/launch', function(req, res) { //renders out the template for launching the tour
