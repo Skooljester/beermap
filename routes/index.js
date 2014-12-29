@@ -41,12 +41,16 @@ var router= express.Router();
 //     address: "1843 South Washtenaw Avenue, Chicago, IL 60608"
 //   }
 // ];
-var brewSchema= [];
-db.getAll(function(breweries) {
-  for(var z= 0; z< breweries.length; z++) {
-    brewSchema.push({name: breweries[z].name, address: breweries[z].address});
-  }
-});
+var brewSchema= updateBrew();
+function updateBrew() {
+  var brewSchemaHold= [];
+  db.getAll(function(breweries) {
+    for(var z= 0; z< breweries.length; z++) {
+      brewSchemaHold.push({name: breweries[z].name, address: breweries[z].address});
+    }
+  });
+  return brewSchemaHold;
+}
 //SCHEMA NOTES
 /*
 ~ beer list
