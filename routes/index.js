@@ -89,7 +89,7 @@ router.get('/swap', function(req, res) { //sends array of name, address pairs
     for(var i= 0; i< breweries.length; i++) {
       brewSchemaHold.push({name: breweries[i].name, address: breweries[i].address});
     }
-    res.send(harr);
+    res.send(brewSchemaHold);
   });
 });
 
