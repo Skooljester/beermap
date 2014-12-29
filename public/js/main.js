@@ -236,6 +236,8 @@ $(function() {
       }
     },
     nameAddrSwap: function(addr) {
+      console.log(addr);
+      console.log(self.swapArr);
       var self= this;
       var sw= self.swapArr;
       if(!sw) {
