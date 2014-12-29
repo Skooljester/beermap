@@ -244,8 +244,6 @@ $(function() {
           self.nameAddrSwap();
         });
       }
-      console.log(addr);
-      console.log(sw);
       for(var i= 0; i< sw.length; i++) {
         if(addr.replace(/\, USA/, "")== sw[i].address)
           return sw[i].name;
