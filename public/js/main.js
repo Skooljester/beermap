@@ -261,11 +261,7 @@ $(function() {
         var dist= 0;
         var jc; //address for origin location
         var ic; //address for dest location
-        console.log("in get");
-        console.log(data);
         for(var i= 0; i< data.rows.length; i++) {
-          console.log("in top for");
-          console.log(data.rows[i]);
           for(var j= 0; j< data.rows[i].elements.length; j++) {
             if (data.rows[i].elements[j].distance.value> dist) {
               dist= data.rows[i].elements[j].distance.value;
@@ -307,7 +303,6 @@ $(function() {
             if($('#plannedRoute li'))
               $('#plannedRoute').empty();
             for(var j= 0; j< route.legs.length; j++) {
-              console.log(route.legs[j].start_address);
               $('#plannedRoute').append('<li>'+self.nameAddrSwap(route.legs[j].start_address)+'</li>');
               if((j+1)== route.legs.length)
                 $('#plannedRoute').append('<li>'+self.nameAddrSwap(route.legs[j].end_address)+'</li>');
