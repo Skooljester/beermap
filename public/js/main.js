@@ -63,17 +63,13 @@ $(function() {
       $.get('/swap', function(data) {
         self.swapArr= data;
       });
-      // $.get('/untappd', function(data) {
-      //   console.log("hi");
-      //   console.log(data);
-      // });
       self.binding();
       self.listeners();
     },
     binding: function() {
       var self= this;
       // FIRST STAGE
-      $('#transportSelect button').on('click', function() {
+      $('#transportSelect button').on('click', function() { //Select transport mode from button group
         $(this).siblings().removeClass('btn-success active').addClass('btn-default').prop('disabled', false);
         $(this).removeClass('btn-default').addClass('btn-success active').prop('disabled', true);
       });
@@ -85,7 +81,7 @@ $(function() {
             return ch= false;
         });
         if(ch) {
-          $('.tourList').append(self.listTmpl($(this).siblings('h1')));//remove `$(this).parent()` if not used
+          $('.tourList').append(self.listTmpl($(this).siblings('h1')));
           self.btnStateChange(true, $(this));
           $.event.trigger({type: "tourAdd"});
         }
@@ -119,7 +115,7 @@ $(function() {
       $('#directions_panel').on('click', '#tourSave', function() { //Will save brewery route once DB linked in, will require sign-in
         console.log("Save code goes here");
       });
-      $('#brewSearch').on('keyup', function() {
+      $('#brewSearch').on('keyup', function() { //Search function, not very robust
         var sval= $(this).val().toLowerCase();
         if($(this).val().length>= 3) {
           $('.brewery').each(function() {
@@ -133,7 +129,7 @@ $(function() {
           $('.brewery').parent().fadeIn(300);
         }
       });
-      $('body').on('click', '.markerAdd', function() {
+      $('body').on('click', '.markerAdd', function() { //Add brewery to list from within map marker
         var hold= $(this);
         $('.brewery').each(function() {
           if($(this).find('header h1').text()== hold.prev('p').text()) {
@@ -159,7 +155,7 @@ $(function() {
           $('#directions_panel').hide();
         });
       });
-      $('body').on('click', '#directionToggle', function() {
+      $('body').on('click', '#directionToggle', function() { //Slides directions panel up and down
         if($('#directions').is(':visible')) {
           $('#directions').slideUp(300);
           $(this).text('Show Directions');
@@ -174,7 +170,7 @@ $(function() {
       });
       // END FIRST STAGE BINDING
       // SECOND STAGE
-      $('body').on('click', '#tourWalk .tab-pane.active .nextStep', function(e) {
+      $('body').on('click', '#tourWalk .tab-pane.active .nextStep', function(e) { //Moves through steps of tour
         //Do uber call if `uber` selected
         var curr= $('#transportSelect .active');
         var ac= $('#tourWalk .tab-pane.active');
@@ -238,12 +234,6 @@ $(function() {
     nameAddrSwap: function(addr) {
       var self= this;
       var sw= self.swapArr;
-      if(!sw) {
-        $.get('/swap', function(data) {
-          self.swapArr= data;
-          self.nameAddrSwap();
-        });
-      }
       for(var i= 0; i< sw.length; i++) {
         if(addr.replace(/\, USA/, "")== sw[i].address)
           return sw[i].name;
@@ -313,6 +303,7 @@ $(function() {
             if($('#plannedRoute li'))
               $('#plannedRoute').empty();
             for(var j= 0; j< route.legs.length; j++) {
+              console.log(route.legs[j].start_address);
               $('#plannedRoute').append('<li>'+self.nameAddrSwap(route.legs[j].start_address)+'</li>');
               if((j+1)== route.legs.length)
                 $('#plannedRoute').append('<li>'+self.nameAddrSwap(route.legs[j].end_address)+'</li>');
