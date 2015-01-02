@@ -14,11 +14,6 @@ x location + address
 x contact info
 */
 
-router.param('id', function (req, res, next, id) {
-  console.log('CALLED ONLY ONCE');
-  next();
-});
-
 /* GET home page. */
 router.get('/', function(req, res) {
   db.getAll(function(breweries) {
@@ -29,9 +24,18 @@ router.get('/', function(req, res) {
   });
 });
 
+// ---------- SHARE STUFF ----------
+router.param('id', function (req, res, next, id) {
+  console.log('CALLED ONLY ONCE');
+  req.dbret= "testing";
+  next();
+});
+
 router.get('/share/:id', function(req, res) {
-  var sid= req.params.id;
+  //var sid= req.params.id;
   console.log("In share id");
+  console.log("req.routes: ");
+  console.log(req.routes);
   /*
   db.Share.find({_id: sid}, function(err, results) {
     var route= [];
@@ -82,8 +86,18 @@ router.get('/dist/:id', function(req, res) {//This is really dirty and I don't l
 });
 
 router.post('/share', function(req, res) {
-  res.send("Sharing is caring");
+  // var routeDests= req.param('order[]');
+  // console.log(routeDests);
+  console.log(req.body);
+  var saveRoute= [];
+  var shareRoute= req.body;
+  for(var rkey in shareRoute)//This may work, need to make sure order is preserved though
+    saveRoute.push({"name": rkey, "addr": shareRoute[rkey]});
+  console.log(saveRoute);
+  res.send(saveRoute);
 });
+
+// ---------- END SHARE ----------
 
 /* Find distance between points */
 router.get('/dist', function(req, res) {
@@ -109,6 +123,7 @@ router.get('/swap', function(req, res) { //sends array of name, address pairs
 
 router.get('/launch', function(req, res) { //renders out the template for launching the tour
   var infoPush= [];
+  console.log(req.query.order);
   var rqo= req.query.order;
   function rend(infoPush) {
     return res.render('_tourWalk', {order: infoPush}, function(err, html) {

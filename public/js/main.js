@@ -112,9 +112,6 @@ $(function() {
           markers[i].setMap(null);
         }
       });
-      $('#directions_panel').on('click', '#tourSave', function() { //Will save brewery route once DB linked in, will require sign-in
-        console.log("Save code goes here");
-      });
       $('#brewSearch').on('keyup', function() { //Search function, not very robust
         var sval= $(this).val().toLowerCase();
         if($(this).val().length>= 3) {
@@ -135,6 +132,24 @@ $(function() {
             $(this).find('header button').trigger('click');
             hold.text('Added').removeClass('btn-primary').addClass('btn-success').prop('disabled', true);
           }
+        });
+      });
+      $('#directions_panel').on('click', '#tourShare', function() { //Will save brewery route once DB linked in, will require sign-in
+        console.log("Save code goes here");
+        var shareOrder= [];
+        var so2= {};
+        var sw= self.swapArr;
+        $('#plannedRoute li').each(function() {
+          for(var i= 0; i< sw.length; i++) {
+            if($(this).text()== sw[i].name)
+              so2[$(this).text()]= sw[i].address;
+          }
+          shareOrder.push($(this).text());
+        });
+        console.log(so2);
+        $.post('/share', so2, function(data) {
+          console.log(data);
+          console.log("posted");
         });
       });
       $('#directions_panel').on('click', '#tourLaunch', function() { //Starts going through tour
@@ -307,7 +322,7 @@ $(function() {
                 $('#plannedRoute').append('<li>'+self.nameAddrSwap(route.legs[j].end_address)+'</li>');
             }
             //$('#directions_panel').append('<div role="group" class="btn-group" id="saveStart"><button type="button" class="btn btn-default" id="tourSave">Save Route</button><button type="button" class="btn btn-success" id="tourLaunch">Start Crawl</button></div>');            
-            $('#directions_panel').append('<div role="group" class="btn-group" id="saveStart"><button type="button" class="btn btn-success" id="tourLaunch">Start Crawl</button></div>');
+            $('#directions_panel').append('<div role="group" class="btn-group" id="saveStart"><button type="button" class="btn btn-default" id="tourShare">Share Route</button><button type="button" class="btn btn-success" id="tourLaunch">Start Crawl</button></div>');
           }
         });
       }
