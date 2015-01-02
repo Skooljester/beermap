@@ -322,7 +322,7 @@ $(function() {
                 $('#plannedRoute').append('<li>'+self.nameAddrSwap(route.legs[j].end_address)+'</li>');
             }
             //$('#directions_panel').append('<div role="group" class="btn-group" id="saveStart"><button type="button" class="btn btn-default" id="tourSave">Save Route</button><button type="button" class="btn btn-success" id="tourLaunch">Start Crawl</button></div>');            
-            $('#directions_panel').append('<div role="group" class="btn-group" id="saveStart"><button type="button" class="btn btn-default" id="tourShare">Share Route</button><button type="button" class="btn btn-success" id="tourLaunch">Start Crawl</button></div>');
+            $('#directions_panel').append('<div role="group" class="btn-group" id="saveStart"><button type="button" class="btn btn-success" id="tourLaunch">Start Crawl</button></div>');
           }
         });
       }

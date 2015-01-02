@@ -91,7 +91,7 @@ router.post('/share', function(req, res) {
   console.log(req.body);
   var saveRoute= [];
   var shareRoute= req.body;
-  for(var rkey in shareRoute)//This may work, need to make sure order is preserved though
+  for(var rkey in shareRoute)//Seems to preserve order
     saveRoute.push({"name": rkey, "addr": shareRoute[rkey]});
   console.log(saveRoute);
   res.send(saveRoute);
