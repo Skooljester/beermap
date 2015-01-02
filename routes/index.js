@@ -13,6 +13,12 @@ x location + address
 - description
 x contact info
 */
+
+router.param('id', function (req, res, next, id) {
+  console.log('CALLED ONLY ONCE');
+  next();
+});
+
 /* GET home page. */
 router.get('/', function(req, res) {
   db.getAll(function(breweries) {
@@ -25,6 +31,8 @@ router.get('/', function(req, res) {
 
 router.get('/share/:id', function(req, res) {
   var sid= req.params.id;
+  console.log("In share id");
+  /*
   db.Share.find({_id: sid}, function(err, results) {
     var route= [];
     var names= [];
@@ -52,6 +60,7 @@ router.get('/share/:id', function(req, res) {
     }
     //End launch
   });
+  */
 });
 
 router.get('/dist/:id', function(req, res) {//This is really dirty and I don't like doing it this way
