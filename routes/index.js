@@ -27,74 +27,66 @@ router.get('/', function(req, res) {
 // ---------- SHARE STUFF ----------
 router.param('id', function (req, res, next, id) {
   console.log('CALLED ONLY ONCE');
-  req.dbret= "testing";
-  next();
+  //req.dbret= "testing";
+  db.Share.find({_id: id}, function(err, results) {
+    console.log(results[0].route);
+    req.dbret= results[0].route;
+    next();
+  });
 });
 
 router.get('/share/:id', function(req, res) {
-  //var sid= req.params.id;
-  console.log("In share id");
-  console.log("req.routes: ");
-  console.log(req.routes);
-  /*
-  db.Share.find({_id: sid}, function(err, results) {
-    var route= [];
-    var names= [];
-    for(var i= 0; i< results[0].length; i++) {
-      route.push(results[0][i].addr);
-      names.push(results[0][i].name);
-    }
-    var str= route.join('|');
-
-    //Part of launch
-    var infoHold= []
-    function rend(infoHold) {
-      return res.render('test', {
-        title: 'Chicago Brewery Tour Planner',
-        order: infoHold,
-        pageid: sid
-      });
-    } 
-    for(var j= 0; j< names.length; j++) {
-      db.find(db.Brewery, {name: names[j]}, function(dbres) {
-        infoHold.push(dbres[0]);
-        if(infoHold.length== names.length)
-          rend(infoHold);
-      });
-    }
-    //End launch
-  });
-  */
+  var sid= req.params.id;
+  var rr= req.dbret;
+  var names= [];
+  for(var i= 0; i< rr.length; i++) {
+    names.push(rr[i].name);
+  }
+  //Part of launch
+  var infoHold= []
+  function rend(infoHold) {
+    return res.render('test', {
+      title: 'Chicago Brewery Tour Planner',
+      order: infoHold,
+      pageid: sid
+    });
+  } 
+  for(var j= 0; j< names.length; j++) {
+    db.find(db.Brewery, {name: names[j]}, function(dbres) {
+      infoHold.push(dbres[0]);
+      if(infoHold.length== names.length)
+        rend(infoHold);
+    });
+  }
+  //End launch
 });
 
 router.get('/dist/:id', function(req, res) {//This is really dirty and I don't like doing it this way
-  db.Share.find({_id: sid}, function(err, results) {
-    var route= [];
-    for(var i= 0; i< results[0].length; i++) {
-      route.push(results[0][i].addr);
-    }
-    var str= route.join('|');
-    //Get distance matrix
-    request({url: 'https://maps.googleapis.com/maps/api/distancematrix/json?origins='+str+'&destinations='+str+'&mode='+req.query.mode+'&key=AIzaSyC-Efjagm9D1r_v4Izz6-vYbb3NmmGIvDw', json: true},
-      function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-          res.send(body);
-        }
-    });
-    //End distance matrix
+  var route= [];
+  var names= [];
+  for(var i= 0; i< req.dbret.length; i++) {
+    route.push(req.dbret[i].addr);
+    names.push(req.dbret[i].name);
+  }
+  var str= route.join('|');
+  //Get distance matrix
+  request({url: 'https://maps.googleapis.com/maps/api/distancematrix/json?origins='+str+'&destinations='+str+'&mode='+req.query.mode+'&key=AIzaSyC-Efjagm9D1r_v4Izz6-vYbb3NmmGIvDw', json: true},
+    function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        res.send({gmres: body, rarr: route});
+      }
   });
+  //End distance matrix
 });
 
 router.post('/share', function(req, res) {
-  // var routeDests= req.param('order[]');
-  // console.log(routeDests);
-  console.log(req.body);
   var saveRoute= [];
   var shareRoute= req.body;
   for(var rkey in shareRoute)//Seems to preserve order
     saveRoute.push({"name": rkey, "addr": shareRoute[rkey]});
-  console.log(saveRoute);
-  res.send(saveRoute);
+  db.create(db.Share, {route: saveRoute}, function(sub) {
+    res.send('/share'+sub._id);
+  });
 });
 
 // ---------- END SHARE ----------
@@ -123,7 +115,6 @@ router.get('/swap', function(req, res) { //sends array of name, address pairs
 
 router.get('/launch', function(req, res) { //renders out the template for launching the tour
   var infoPush= [];
-  console.log(req.query.order);
   var rqo= req.query.order;
   function rend(infoPush) {
     return res.render('_tourWalk', {order: infoPush}, function(err, html) {
@@ -154,7 +145,6 @@ router.get('/uber', function(req, res) { //hits Uber API to get prices from one 
 });
 
 router.get('/untappd', function(req, res) {
-  console.log("in here");
   var utcid= '4149526DC899177640B7E25BBB0D40D8A7F32E48';
   var utcs= 'E0B8914BF88C67A8645643B978BE65235BED4686';
   var holdarr= [];

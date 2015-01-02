@@ -1,17 +1,18 @@
 $(function() {
   // ---------- MAP SHIT ----------
   var map;
-  var directionsDisplay= new google.maps.DirectionsRenderer();;
+  var directionsDisplay= new google.maps.DirectionsRenderer();
   var directionsService= new google.maps.DirectionsService();
   var stepDisplay;
   function initialize() {
     var mapOptions= {
-      zoom: 12,
-      center: new google.maps.LatLng(41.850033, -87.6500523)
+      zoom: 16,
+      center: new google.maps.LatLng($('.tab-pane.active').data('lat'), $('.tab-pane.active').data('lng'))
     };
-    map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    map= new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     directionsDisplay.setMap(map);
-    stepDisplay = new google.maps.InfoWindow();
+    directionsDisplay.setOptions({preserveViewport: true});
+    stepDisplay= new google.maps.InfoWindow();
     $('#map-canvas').append('<header id="directionsHeader"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span><a href="#" id="directionToggle">Hide Directions</a></header><div id="directions"></div>');
   }
   initialize(); //initialize google maps
@@ -61,28 +62,33 @@ $(function() {
     loadMap: function() {
       var self= this;
     },
-    multiRoute: function(arr) { //Multi-place routing
+    multiRoute: function() { //Multi-place routing
       var self= this;
-      var waypts = [];
+      var waypts= [];
+      var arr= [];
       var transportMode= google.maps.TravelMode.DRIVING;
       if($('#transportSelect button.active').data('mode')== "bicycling")
         transportMode= google.maps.TravelMode.BICYCLING;
       $.get('/dist/'+$('a.h1').data('pid'), {mode: $('#transportSelect button.active').data('mode')}, function(data) { //send addresses to backend
+        var gmr= data.gmres;
+        console.log(gmr);
+        arr= data.rarr;
+        console.log(arr);
         var dist= 0;
         var jc; //address for origin location
         var ic; //address for dest location
-        for(var i= 0; i< data.rows.length; i++) {
-          for(var j= 0; j< data.rows[i].elements.length; j++) {
-            if (data.rows[i].elements[j].distance.value> dist) {
-              dist= data.rows[i].elements[j].distance.value;
-              jc= data.origin_addresses[j]; //assign address for origin location
-              ic= data.destination_addresses[i]; //assign address for dest location
+        for(var i= 0; i< gmr.rows.length; i++) {
+          for(var j= 0; j< gmr.rows[i].elements.length; j++) {
+            if (gmr.rows[i].elements[j].distance.value> dist) {
+              dist= gmr.rows[i].elements[j].distance.value;
+              jc= gmr.origin_addresses[j]; //assign address for origin location
+              ic= gmr.destination_addresses[i]; //assign address for dest location
             }
           }
         }
         multiMap(jc.replace(/\, USA/, ""), ic.replace(/\, USA/, "")); //removes `, USA` in order to match with array
       });
-      function multiMap (start, end) {
+      function multiMap (start, end, cb) {
         for (var i = 0; i < arr.length; i++) {
           if(arr[i]!= start&& arr[i]!= end) { //make sure that the address in array is neither the start or the end
             waypts.push({
@@ -99,15 +105,11 @@ $(function() {
           travelMode: transportMode //Can turn into variable to allow for biking to be an option
         };
         directionsService.route(request, function(response, status) { //When mapping need to put market next to name of brewery
-          if (status == google.maps.DirectionsStatus.OK) {
+          if (status== google.maps.DirectionsStatus.OK) {
             directionsDisplay.setDirections(response);
             var route= response.routes[0];
             // For each route, display summary information.
             directionsDisplay.setPanel(document.getElementById('directions'));
-            map.setOptions({//might need to move elsewhere
-              zoom: 16,
-              center: new google.maps.LatLng($('.tab-pane.active').data('lat'), $('.tab-pane.active').data('lng'))
-            });
           }
         });
       }
