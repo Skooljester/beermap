@@ -26,29 +26,23 @@ router.get('/', function(req, res) {
 
 // ---------- SHARE STUFF ----------
 router.param('id', function (req, res, next, id) {
-  console.log('CALLED ONLY ONCE');
-  //req.dbret= "testing";
   db.Share.find({_id: id}, function(err, results) {
-    console.log(results[0].route);
     req.dbret= results[0].route;
+    req.id= req.param('id');
     next();
   });
 });
 
 router.get('/share/:id', function(req, res) {
-  var sid= req.params.id;
-  var rr= req.dbret;
-  var names= [];
-  for(var i= 0; i< rr.length; i++) {
-    names.push(rr[i].name);
-  }
-  //Part of launch
-  var infoHold= []
+  var names= [].map.call(req.dbret, function(obj) {
+    return obj.name;
+  });
+  var infoHold= [];
   function rend(infoHold) {
     return res.render('test', {
       title: 'Chicago Brewery Tour Planner',
       order: infoHold,
-      pageid: sid
+      pageid: req.id
     });
   } 
   for(var j= 0; j< names.length; j++) {
@@ -58,23 +52,33 @@ router.get('/share/:id', function(req, res) {
         rend(infoHold);
     });
   }
-  //End launch
+  // May need to use this if order continues to be a problem
+  // var z= 0;
+  // function makeBlock() {
+  //   db.find(db.Brewery, {name: names[z]}, function(dbres) {
+  //     infoHold.push(dbres[0]);
+  //     if(infoHold.length== names.length)
+  //       rend(infoHold);
+  //     else {
+  //       z++;
+  //       makeBlock();
+  //     }
+  //   });
+  // }
 });
 
 router.get('/dist/:id', function(req, res) {//This is really dirty and I don't like doing it this way
-  var route= [];
-  var names= [];
-  for(var i= 0; i< req.dbret.length; i++) {
-    route.push(req.dbret[i].addr);
-    names.push(req.dbret[i].name);
-  }
-  var str= route.join('|');
+  var str= [];
+  var route= [].map.call(req.dbret, function(obj) {
+    str.push(obj.addr);
+    return {location: obj.addr, stopover: true};
+  });
+  str= str.join('|');
   //Get distance matrix
   request({url: 'https://maps.googleapis.com/maps/api/distancematrix/json?origins='+str+'&destinations='+str+'&mode='+req.query.mode+'&key=AIzaSyC-Efjagm9D1r_v4Izz6-vYbb3NmmGIvDw', json: true},
     function (error, response, body) {
-      if (!error && response.statusCode == 200) {
+      if (!error && response.statusCode == 200)
         res.send({gmres: body, rarr: route});
-      }
   });
   //End distance matrix
 });
@@ -85,7 +89,7 @@ router.post('/share', function(req, res) {
   for(var rkey in shareRoute)//Seems to preserve order
     saveRoute.push({"name": rkey, "addr": shareRoute[rkey]});
   db.create(db.Share, {route: saveRoute}, function(sub) {
-    res.send('/share'+sub._id);
+    res.send('/share/'+sub._id);
   });
 });
 
@@ -122,8 +126,15 @@ router.get('/launch', function(req, res) { //renders out the template for launch
       res.send(html);
     });
   } 
-  for(var i= 0; i< rqo.length; i++) {
+  for(var i= 0; i< rqo.length; i++) { //problem here with order not being correct
     db.find(db.Brewery, {name: rqo[i]}, function(dbres) {
+      /*
+      //If ordering becomes a problem, may need to use this instead
+      for(var j= 0; j< rqo.length; j++) {
+        if(dbres[0].name== rqo[j])
+          rqo[j]= dbres[0];
+      }
+      */
       infoPush.push(dbres[0]);
       if(infoPush.length== rqo.length)
         rend(infoPush);

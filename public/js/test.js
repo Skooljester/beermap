@@ -11,7 +11,7 @@ $(function() {
     };
     map= new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     directionsDisplay.setMap(map);
-    directionsDisplay.setOptions({preserveViewport: true});
+    directionsDisplay.setOptions({preserveViewport: true});//Keeps it from zooming out to 12 when directions rendered
     stepDisplay= new google.maps.InfoWindow();
     $('#map-canvas').append('<header id="directionsHeader"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span><a href="#" id="directionToggle">Hide Directions</a></header><div id="directions"></div>');
   }
@@ -64,16 +64,11 @@ $(function() {
     },
     multiRoute: function() { //Multi-place routing
       var self= this;
-      var waypts= [];
-      var arr= [];
       var transportMode= google.maps.TravelMode.DRIVING;
       if($('#transportSelect button.active').data('mode')== "bicycling")
         transportMode= google.maps.TravelMode.BICYCLING;
       $.get('/dist/'+$('a.h1').data('pid'), {mode: $('#transportSelect button.active').data('mode')}, function(data) { //send addresses to backend
         var gmr= data.gmres;
-        console.log(gmr);
-        arr= data.rarr;
-        console.log(arr);
         var dist= 0;
         var jc; //address for origin location
         var ic; //address for dest location
@@ -86,17 +81,12 @@ $(function() {
             }
           }
         }
-        multiMap(jc.replace(/\, USA/, ""), ic.replace(/\, USA/, "")); //removes `, USA` in order to match with array
+        multiMap(jc.replace(/\, USA/, ""), ic.replace(/\, USA/, ""), data.rarr); //removes `, USA` in order to match with array
       });
-      function multiMap (start, end, cb) {
-        for (var i = 0; i < arr.length; i++) {
-          if(arr[i]!= start&& arr[i]!= end) { //make sure that the address in array is neither the start or the end
-            waypts.push({
-              location: arr[i],
-              stopover: true
-            });
-          }
-        }
+      function multiMap (start, end, arr) {
+        var waypts= arr.filter(function(obj) { //Different way to do it, not sure if better performance or not
+          return obj.location!= start&& obj.location!= end;
+        });
         var request = {
           origin: start,
           destination: end,

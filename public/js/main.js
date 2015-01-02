@@ -144,11 +144,8 @@ $(function() {
               so2[$(this).text()]= sw[i].address;
           }
         });
-        console.log(so2);
         $.post('/share', so2, function(data) {
-          console.log(data);
-          console.log("posted");
-          t.parent().parent().append('<a href="'+data+' target="_blank">Share link</a>');
+          t.parent().parent().append('<a href="'+data+'>Share link</a>');
         });
       });
       $('#directions_panel').on('click', '#tourLaunch', function() { //Starts going through tour
@@ -247,7 +244,7 @@ $(function() {
     nameAddrSwap: function(addr) {
       var self= this;
       var sw= self.swapArr;
-      for(var i= 0; i< sw.length; i++) {
+      for(var i= 0; i< sw.length; i++) { //See if filter can be used here
         if(addr.replace(/\, USA/, "")== sw[i].address)
           return sw[i].name;
       }
