@@ -2,10 +2,7 @@ extends layout
 
 block content
   header.page-header
-    a(href="/").h1 Chicago Brewery Tours
-  h2.tourListTitle Tour List
-    button(type= "button", data-loading-text="Mapping...", disabled= true).btn.btn-success.mapTour Map Route
-  ul.tourList.list-group
+    a(href="/", data-pid="#{pageid}").h1 Chicago Brewery Tours
 
   div.input-group
     span.input-group-addon Transportation Mode:
@@ -14,14 +11,11 @@ block content
       button(type="button", data-mode="driving", data-uber="false", disabled=true).btn.btn-success.active Driving
       button(type="button", data-mode="driving", data-uber="true", disabled=false).btn.btn-default Uber
 
-  div#directions_panel
-    ul#plannedRoute
-
   div#map-canvas
 
-  include _breweryList
+  include _tourWalk
 
-  script(src='/js/main.js')
+  script(src='/js/test.js')
 
 block footer
   include footer

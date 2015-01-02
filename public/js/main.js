@@ -125,7 +125,6 @@ $(function() {
           });
         }
         else {
-          // $('.brewery').parent().show();
           $('.brewery').parent().fadeIn(300);
         }
       });

@@ -3,54 +3,6 @@ var request= require('request');
 var db= require('../db/dbmain');
 var router= express.Router();
 
-// var brewSchema= [
-//   {
-//     name: "Revolution Brewing",
-//     address: "2323 North Milwaukee Avenue, Chicago, IL 60647"
-//   },
-//   {
-//     name: "Half Acre Beer Company",
-//     address: "4257 North Lincoln Avenue, Chicago, IL 60618"
-//   },
-//   {
-//     name: "Haymarket Pub & Brewery",
-//     address: "737 West Randolph Street, Chicago, IL 60661"
-//   },
-//   {
-//     name: "Atlas Brewing Company",
-//     address: "2747 North Lincoln Avenue, Chicago, IL 60614"
-//   },
-//   {
-//     name: "DryHop Brewers",
-//     address: "3155 North Broadway Street, Chicago, IL 60657"
-//   },
-//   {
-//     name: "Goose Island",
-//     address: "1800 North Clybourn Avenue, Chicago, IL 60614"
-//   },
-//   {
-//     name: "Begyle Brewing Company",
-//     address: "1800 West Cuyler Avenue, Chicago, IL 60613"
-//   },
-//   {
-//     name: "Piece Brewery & Pizzeria",
-//     address: "1927 West North Avenue, Chicago, IL 60622"
-//   },
-//   {
-//     name: "Lagunitas Brewing Company Chicago",
-//     address: "1843 South Washtenaw Avenue, Chicago, IL 60608"
-//   }
-// ];
-// var brewSchema= updateBrew();
-// function updateBrew() {
-//   var brewSchemaHold= [];
-//   db.getAll(function(breweries) {
-//     for(var z= 0; z< breweries.length; z++) {
-//       brewSchemaHold.push({name: breweries[z].name, address: breweries[z].address});
-//     }
-//   });
-//   return brewSchemaHold;
-// }
 //SCHEMA NOTES
 /*
 ~ beer list
@@ -69,6 +21,59 @@ router.get('/', function(req, res) {
       breweries: breweries
     });
   });
+});
+
+router.get('/share/:id', function(req, res) {
+  var sid= req.params.id;
+  db.Share.find({_id: sid}, function(err, results) {
+    var route= [];
+    var names= [];
+    for(var i= 0; i< results[0].length; i++) {
+      route.push(results[0][i].addr);
+      names.push(results[0][i].name);
+    }
+    var str= route.join('|');
+
+    //Part of launch
+    var infoHold= []
+    function rend(infoHold) {
+      return res.render('test', {
+        title: 'Chicago Brewery Tour Planner',
+        order: infoHold,
+        pageid: sid
+      });
+    } 
+    for(var j= 0; j< names.length; j++) {
+      db.find(db.Brewery, {name: names[j]}, function(dbres) {
+        infoHold.push(dbres[0]);
+        if(infoHold.length== names.length)
+          rend(infoHold);
+      });
+    }
+    //End launch
+  });
+});
+
+router.get('/dist/:id', function(req, res) {//This is really dirty and I don't like doing it this way
+  db.Share.find({_id: sid}, function(err, results) {
+    var route= [];
+    for(var i= 0; i< results[0].length; i++) {
+      route.push(results[0][i].addr);
+    }
+    var str= route.join('|');
+    //Get distance matrix
+    request({url: 'https://maps.googleapis.com/maps/api/distancematrix/json?origins='+str+'&destinations='+str+'&mode='+req.query.mode+'&key=AIzaSyC-Efjagm9D1r_v4Izz6-vYbb3NmmGIvDw', json: true},
+      function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          res.send(body);
+        }
+    });
+    //End distance matrix
+  });
+});
+
+router.post('/share', function(req, res) {
+  res.send("Sharing is caring");
 });
 
 /* Find distance between points */
