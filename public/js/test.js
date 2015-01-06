@@ -18,10 +18,11 @@ $(function() {
   initialize(); //initialize google maps
   // ---------- END MAP ----------
   var tester= {
+    socket: io.connect('http://localhost:3000'),
     init: function() {
       var self= this;
+      self.sockets();
       self.binding();
-      self.multiRoute();
     },
     binding: function() {
       $('body').on('click', '#tourWalk .tab-pane.active .nextStep', function(e) { //Moves through steps of tour
@@ -62,27 +63,35 @@ $(function() {
     loadMap: function() {
       var self= this;
     },
-    multiRoute: function() { //Multi-place routing
+    sockets: function() {
+      var self= this;
+      var socket= self.socket;
+      socket.on('distmat', function (data) {
+        self.multiRoute(data);
+      });
+      socket.on('paneRender', function (data) {
+        $('.tab-content').append(data.pane);
+      });
+    },
+    multiRoute: function(data) { //Multi-place routing
       var self= this;
       var transportMode= google.maps.TravelMode.DRIVING;
       if($('#transportSelect button.active').data('mode')== "bicycling")
         transportMode= google.maps.TravelMode.BICYCLING;
-      $.get('/dist/'+$('a.h1').data('pid'), {mode: $('#transportSelect button.active').data('mode')}, function(data) { //send addresses to backend
-        var gmr= data.gmres;
-        var dist= 0;
-        var jc; //address for origin location
-        var ic; //address for dest location
-        for(var i= 0; i< gmr.rows.length; i++) {
-          for(var j= 0; j< gmr.rows[i].elements.length; j++) {
-            if (gmr.rows[i].elements[j].distance.value> dist) {
-              dist= gmr.rows[i].elements[j].distance.value;
-              jc= gmr.origin_addresses[j]; //assign address for origin location
-              ic= gmr.destination_addresses[i]; //assign address for dest location
-            }
+      var gmr= data.gmres;
+      var dist= 0;
+      var jc; //address for origin location
+      var ic; //address for dest location
+      for(var i= 0; i< gmr.rows.length; i++) {
+        for(var j= 0; j< gmr.rows[i].elements.length; j++) {
+          if (gmr.rows[i].elements[j].distance.value> dist) {
+            dist= gmr.rows[i].elements[j].distance.value;
+            jc= gmr.origin_addresses[j]; //assign address for origin location
+            ic= gmr.destination_addresses[i]; //assign address for dest location
           }
         }
-        multiMap(jc.replace(/\, USA/, ""), ic.replace(/\, USA/, ""), data.rarr); //removes `, USA` in order to match with array
-      });
+      }
+      multiMap(jc.replace(/\, USA/, ""), ic.replace(/\, USA/, ""), data.rarr); //removes `, USA` in order to match with array
       function multiMap (start, end, arr) {
         var waypts= arr.filter(function(obj) { //Different way to do it, not sure if better performance or not
           return obj.location!= start&& obj.location!= end;

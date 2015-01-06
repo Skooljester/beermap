@@ -1,6 +1,7 @@
 var express= require('express');
 var request= require('request');
 var db= require('../db/dbmain');
+var io= require('../io');
 var router= express.Router();
 
 //SCHEMA NOTES
@@ -32,7 +33,7 @@ router.param('id', function (req, res, next, id) {
     next();
   });
 });
-
+/*
 router.get('/share/:id', function(req, res) {
   var names= [].map.call(req.dbret, function(obj) {
     return obj.name;
@@ -66,7 +67,69 @@ router.get('/share/:id', function(req, res) {
   //   });
   // }
 });
+*/
 
+// ---------- SOCKET TEST ----------
+/*
+router.get('/share/:id', function(req, res) {
+  var str= [];
+  var dbret= req.dbret;
+  var names= [].map.call(dbret, function(obj) {
+    return obj.name;
+  });
+  var route= [].map.call(dbret, function(obj) {
+    str.push(obj.addr);
+    return {location: obj.addr, stopover: true};
+  });
+  var infoHold= [];
+  function rend(infoHold) {
+    return res.render('test', {
+      title: 'Chicago Brewery Tour Planner',
+      order: infoHold,
+      pageid: req.id
+    });
+  } 
+  for(var j= 0; j< names.length; j++) {
+    db.find(db.Brewery, {name: names[j]}, function(dbres) {
+      infoHold.push(dbres[0]);
+      if(infoHold.length== names.length)
+        rend(infoHold);
+    });
+  }
+  //Get distance matrix
+  io.on('connection', function (socket) { //may want to move this if using in multiple places
+    getDistMat(route, str.join('|'), socket);
+  });
+  //End distance matrix
+});
+*/
+// ---------- PIPE TEST ----------
+router.get('/share/:id', function(req, res) {
+  var str= [];
+  var dbret= req.dbret;
+  var names= [].map.call(dbret, function(obj) {
+    return obj.name;
+  });
+  var route= [].map.call(dbret, function(obj) {
+    str.push(obj.addr);
+    return {location: obj.addr, stopover: true};
+  });  
+  db.find(db.Brewery, {name: names[0]}, function(dbres) {
+    io.getDistMat(route, str.join('|'));
+    io.paneRender(res, names);
+    return res.render('test2', {
+      title: 'Chicago Brewery Tour Planner',
+      order: dbres[0],
+      names: names,
+      pageid: req.id
+    });
+  });
+});
+
+// ---------- END PIPE TEST ----------
+
+// ---------- END SOCKET TEST ----------
+/*
 router.get('/dist/:id', function(req, res) {//This is really dirty and I don't like doing it this way
   var str= [];
   var route= [].map.call(req.dbret, function(obj) {
@@ -82,7 +145,7 @@ router.get('/dist/:id', function(req, res) {//This is really dirty and I don't l
   });
   //End distance matrix
 });
-
+*/
 router.post('/share', function(req, res) {
   var saveRoute= [];
   var shareRoute= req.body;
@@ -172,4 +235,4 @@ router.get('/untappd', function(req, res) {
     }
   });
 });
-module.exports = router;
+module.exports= router;

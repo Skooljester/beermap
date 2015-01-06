@@ -1,0 +1,10 @@
+div(role="tabpanel", id="#{index}", data-addr="#{val.address}", data-lat="#{val.lat}", data-lng="#{val.lng}").tab-pane
+  div.panel.panel-default
+    div.panel-heading
+      h2= val.name
+      a(href="tel:#{val.phone}")= val.phone
+    section.panel-body
+      include _beerList
+    div.panel-footer
+      button(type= "button").btn.btn-primary.nextStep.pull-right Next Location
+      div.clearfix

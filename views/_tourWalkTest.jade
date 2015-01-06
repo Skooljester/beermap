@@ -1,0 +1,21 @@
+section#tourWalk
+  div(role="tabpanel")
+    ul(role="tablist").nav.nav-tabs#tourNav
+      each val, index in names
+        if index== 0
+          li(role="presentation").active
+            a(href="##{index}", role="tab", data-toggle="tab")= val
+        else
+          li(role="presentation")
+            a(href="##{index}", role="tab", data-toggle="tab")= val
+    div.tab-content
+      div(role="tabpanel", id="0", class="active", data-addr="#{order.address}", data-lat="#{order.lat}", data-lng="#{order.lng}").tab-pane
+        div.panel.panel-default
+          div.panel-heading
+            h2= order.name
+            a(href="tel:#{order.phone}")= order.phone
+          section.panel-body
+            include _beerList2
+          div.panel-footer
+            button(type= "button").btn.btn-primary.nextStep.pull-right Next Location
+            div.clearfix

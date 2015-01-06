@@ -1,0 +1,8 @@
+div.row
+  for beer, ind in order.locbeers
+    if (ind%3== 0)&& ind!= 0
+      div.clearfix
+    div.col-md-4
+      article
+        h4= beer.name
+        p Style: #{beer.style} | Average Rating: #{beer.score.toFixed(2)}

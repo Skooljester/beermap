@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  header.page-header
+    a(href="/", data-pid="#{pageid}").h1 Chicago Brewery Tours
+
+  div.input-group
+    span.input-group-addon Transportation Mode:
+    div(role="group").btn-group#transportSelect
+      button(type="button", data-mode="bicycling", data-uber="false", disabled=false).btn.btn-default Biking
+      button(type="button", data-mode="driving", data-uber="false", disabled=true).btn.btn-success.active Driving
+      button(type="button", data-mode="driving", data-uber="true", disabled=false).btn.btn-default Uber
+
+  div#map-canvas
+
+  include _tourWalkTest
+
+  script(src='/js/test.js')
+
+block footer
+  include footer

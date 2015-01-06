@@ -47,18 +47,8 @@ ul {
   top: 3%;
   overflow-y: scroll;
 }
-.brewery {
-  /*width: 30%;*/ /*maybe change to 45*/
-  /*width: 47.5%;
-  margin-right: 5%;
-  display: inline-block;*/ /*float left may work better if the heights are different*/
-}
 #plannedRoute {
   display: inline-block;
-}
-#plannedRoute li {
-  display: inline-block;
-  padding-right: 10px;
 }
 #transportSelect button:first-child {
   border-radius: 0px;

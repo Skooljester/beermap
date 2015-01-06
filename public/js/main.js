@@ -56,6 +56,15 @@ $(function() {
     });
   }
   // --- end current location
+
+  // ---------- IO STUFF ----------
+  var socket= io.connect(window.location.hostname);
+  socket.on('message', function (data) {
+    console.log(data);
+    //socket.emit('my other event', { my: 'data' });
+  });
+  // ---------- END IO ----------
+  
   var tourPlan= {
     swapArr: null,
     init: function() {
@@ -116,14 +125,12 @@ $(function() {
         var sval= $(this).val().toLowerCase();
         if($(this).val().length>= 3) {
           $('.brewery').each(function() {
-            if(!$(this).find('header h1').text().toLowerCase().match(sval)) {
+            if(!$(this).find('header h1').text().toLowerCase().match(sval))
               $(this).parent().fadeOut(300);
-            }
           });
         }
-        else {
+        else
           $('.brewery').parent().fadeIn(300);
-        }
       });
       $('body').on('click', '.markerAdd', function() { //Add brewery to list from within map marker
         var hold= $(this);
@@ -232,14 +239,10 @@ $(function() {
       return '<li data-ind="'+obj.data('ind')+'" data-lat="'+obj.data('lat')+'" data-lng="'+obj.data('lng')+'" data-addr="'+obj.data('addr')+'" class="list-group-item">'+obj.text()+'<button type="button" class="btn btn-danger removeBrew">X</button></li>';
     },
     btnStateChange: function(bool, obj) { //Change state of button next to brewery name
-      if(bool) { //If `true` disable and change text
-        obj.removeClass('btn-primary').addClass('btn-success').prop('disabled', true);
-        obj.text('Added');
-      }
-      else { //If `false` enable
-        obj.removeClass('btn-success').addClass('btn-primary').prop('disabled', false);
-        obj.text('Add Brewery');
-      }
+      if(bool)//If `true` disable and change text
+        obj.text('Added').removeClass('btn-primary').addClass('btn-success').prop('disabled', true);
+      else //If `false` enable
+        obj.text('Add Brewery').removeClass('btn-success').addClass('btn-primary').prop('disabled', false);
     },
     nameAddrSwap: function(addr) {
       var self= this;
