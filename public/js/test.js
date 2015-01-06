@@ -18,7 +18,7 @@ $(function() {
   initialize(); //initialize google maps
   // ---------- END MAP ----------
   var tester= {
-    socket: io.connect('https://localhost', {secure: true}),
+    socket: io.connect(location.origin.replace(/^http/, 'ws'), {secure: true}),
     init: function() {
       var self= this;
       self.sockets();
