@@ -30,6 +30,7 @@ router.param('id', function (req, res, next, id) {
   db.Share.find({_id: id}, function(err, results) {
     req.dbret= results[0].route;
     req.id= req.param('id');
+    next();
     // --- TESTING ---
     // Not sure if I want this here or not
     var str= [];
@@ -39,7 +40,6 @@ router.param('id', function (req, res, next, id) {
     });
     io.getDistMat(route, str.join('|'));
     // --- END TEST ---
-    next();
   });
 });
 /*
@@ -80,16 +80,12 @@ router.get('/share/:id', function(req, res) {
 
 // ---------- SOCKET TEST ----------
 router.get('/share/:id', function(req, res) {
-  // var str= [];
+  console.log("in share");
   var dbret= req.dbret;
   var names= [].map.call(dbret, function(obj) {
     return obj.name;
   });
   io.paneRender(res, names);//Calling this as soon as possible to get all calls done ASAP
-  // var route= [].map.call(dbret, function(obj) {
-  //   str.push(obj.addr);
-  //   return {location: obj.addr, stopover: true};
-  // });  
   db.find(db.Brewery, {name: names[0]}, function(dbres) {
     return res.render('test2', {
       title: 'Chicago Brewery Tour Planner',

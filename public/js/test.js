@@ -80,7 +80,7 @@ $(function() {
         self.multiRoute(data);
       });
       socket.on('paneRender', function (data) {
-        $('.tab-content').append(data.pane);
+        $('.tab-content').append(data.pane);//If data gets sent weird may need to match index to name
       });
     },
     multiRoute: function(data) { //Multi-place routing

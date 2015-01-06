@@ -11,13 +11,13 @@ function setSocket(sock) {
     return socket= sock;
 }
 var gdmdef; //Don't know how this will work with multiple users connected, we shall see
-function getDistMat(route, str) {//Bad way to do this I think
+function getDistMat(route, str) {
   gdmdef= Q.defer();
   request({url: 'https://maps.googleapis.com/maps/api/distancematrix/json?origins='+str+'&destinations='+str+'&mode=driving&key=AIzaSyC-Efjagm9D1r_v4Izz6-vYbb3NmmGIvDw', json: true},
     function (error, response, body) {
       if (!error && response.statusCode == 200) {
         gdmdef.promise.then(function (obj) {
-          obj.emit('distmat', {gmres: body, rarr: route});
+          obj.emit('distmat', {gmres: body, rarr: route});//This one shouldn't break
         });
       }
   });
@@ -32,8 +32,8 @@ function paneRender(res, names) {
         index: num
       }, function (err, html) {
         if(err) return console.log(err);
-        prdef.promise.then(function (obj) {
-          obj.emit('paneRender', {pane: html, brewery: name});
+        prdef.promise.then(function (obj) {//I actually don't understand how this works...
+          obj.emit('paneRender', {pane: html, brewery: name});//not sure if this has potential to break if promise resolves before done looping
         });
       });
     });
