@@ -6,19 +6,15 @@ block content
   h2.tourListTitle Tour List
     button(type= "button", data-loading-text="Mapping...", disabled= true).btn.btn-success.mapTour Map Route
   ul.tourList.list-group
-
   div.input-group
     span.input-group-addon Transportation Mode:
     div(role="group").btn-group#transportSelect
       button(type="button", data-mode="bicycling", data-uber="false", disabled=false).btn.btn-default Biking
       button(type="button", data-mode="driving", data-uber="false", disabled=true).btn.btn-success.active Driving
       button(type="button", data-mode="driving", data-uber="true", disabled=false).btn.btn-default Uber
-
   div#directions_panel
     ul.list-inline#plannedRoute
-
   div#map-canvas
-
   include _breweryList
 
   script(src='/js/main.js')

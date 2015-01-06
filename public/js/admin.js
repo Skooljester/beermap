@@ -11,12 +11,15 @@ $(function() {
           console.log("posted");
         });
       });
-      $('#forceSync').on('click', function() {
+      $('#forceSync').on('click', function() {//Sync beer list
+        var t= $(this);
+        t.button('loading');
         $.get('/admin/forceUpdate', function(data) {
+          t.button('reset');
           console.log(data);
         });
       });
-      $('#addBrew').on('click', function() {
+      $('#addBrew').on('click', function() {//Add brewery function
         $(this).button('loading');
         var postObj= {
           name: $('#brewName').val(),
@@ -32,15 +35,19 @@ $(function() {
           $('#addBrewForm input').val('');
         });
       });
-      $('.brewEditBtn').on('click', function() {
+      $('.brewEditBtn').on('click', function() {//Add other buttons
         $(this).parent().find('span').each(function() {
           $(this).parent().append('<input type="text" class="form-control" placeholder="'+$(this).text()+'" />');
           $(this).remove();
         });
-        $(this).parent().append('<div role="group" class="btn-group editGroup"><button type="button" class="btn btn-warning editCancel">Cancel changes</button><button type="button" class="btn btn-danger editDelete">Delete entry</button><button type="button" class="btn btn-primary editUtvid">Change utvid</button><button type="button" class="btn btn-success editUpdate">Update</button></div>');
+        $(this).parent().append('<div role="group" class="btn-group editGroup">'+
+          '<button type="button" class="btn btn-warning editCancel">Cancel changes</button>'+
+          '<button type="button" class="btn btn-danger editDelete" data-loading-text="Deleting...">Delete entry</button>'+
+          '<button type="button" class="btn btn-primary editUtvid" data-loading-text="Changing...">Change utvid</button>'+
+          '<button type="button" class="btn btn-success editUpdate" data-loading-text="Updating...">Update</button></div>');
         $(this).hide();
       });
-      $('#brewEdit').on('click', '.editCancel', function() {
+      $('#brewEdit').on('click', '.editCancel', function() {//Cancel edit button
         $(this).parent().parent().find('input').not('.nameinp').each(function() {
           $(this).parent().append('<span class="editTextHold">'+$(this).attr('placeholder')+'</span>');
           $(this).remove();
@@ -48,20 +55,27 @@ $(function() {
         $(this).parent().siblings('.brewEditBtn').show();
         $(this).parent().remove();
       });
-      $('#brewEdit').on('click', '.editDelete', function() {
+      $('#brewEdit').on('click', '.editDelete', function() {//Delete entry button
         var utvid= $(this).parent().siblings('p.utvid').data('utvid');
+        var t= $(this);
         if(confirm("Are you sure?")) {
+          t.button('loading');
           $.get('/admin/deleteBrew', function(data) {
+            t.button('reset');
             console.log("deleted");
           });
         }
       });
-      $('#brewEdit').on('click', '.editUtvid', function() {
+      $('#brewEdit').on('click', '.editUtvid', function() {//Edit Utvid button
+        var t= $(this);
+        t.button('loading');
         $.post('/admin/updateUtvid', {oldutvid: $('.utvid').data('utvid'), newutvid: $('.utvid').find('input').val()}, function(data) {
           console.log(data);
+          t.button('reset');
         });
       });
-      $('#brewEdit').on('click', '.editUpdate', function() {
+      $('#brewEdit').on('click', '.editUpdate', function() {//Update button
+        var t= $(this);
         var updObj= {
           name: null,
           utvid: $(this).parent().siblings('p.utvid').data('utvid'),
@@ -79,7 +93,9 @@ $(function() {
           if(updObj[key]== null)
             delete updObj[key];
         }
+        t.button('loading');
         $.post('/admin/updateBrew', updObj, function(data) {
+          t.button('reset');
           $(this).parent().siblings('.brewEditBtn').show();
           $(this).parent().remove();
         });

@@ -56,15 +56,6 @@ $(function() {
     });
   }
   // --- end current location
-
-  // ---------- IO STUFF ----------
-  var socket= io.connect(window.location.hostname);
-  socket.on('message', function (data) {
-    console.log(data);
-    //socket.emit('my other event', { my: 'data' });
-  });
-  // ---------- END IO ----------
-  
   var tourPlan= {
     swapArr: null,
     init: function() {
@@ -320,6 +311,7 @@ $(function() {
               if((j+1)== route.legs.length)
                 $('#plannedRoute').append('<li>'+self.nameAddrSwap(route.legs[j].end_address)+'</li>');
             }
+            $('#saveStart').remove();
             $('#directions_panel').append('<div role="group" class="btn-group" id="saveStart"><button type="button" class="btn btn-default" id="tourShare">Share Route</button><button type="button" class="btn btn-success" id="tourLaunch">Start Crawl</button></div>');
           }
         });

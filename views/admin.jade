@@ -20,7 +20,7 @@ block content
     h1 Admin Panel
   ul.list-group
     li.list-group-item
-      button(type="button").btn.btn-warning#forceSync Force Beer Resync - This takes a while, don't use lightly
+      button(type="button", data-loading-text="Syncing...").btn.btn-warning#forceSync Force Beer Resync - This takes a while, don't use lightly
     li.list-group-item
       h2 Add Brewery
       form#addBrewForm

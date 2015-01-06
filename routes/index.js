@@ -30,6 +30,15 @@ router.param('id', function (req, res, next, id) {
   db.Share.find({_id: id}, function(err, results) {
     req.dbret= results[0].route;
     req.id= req.param('id');
+    // --- TESTING ---
+    // Not sure if I want this here or not
+    var str= [];
+    var route= [].map.call(results[0].route, function(obj) {
+      str.push(obj.addr);
+      return {location: obj.addr, stopover: true};
+    });
+    io.getDistMat(route, str.join('|'));
+    // --- END TEST ---
     next();
   });
 });
@@ -70,53 +79,18 @@ router.get('/share/:id', function(req, res) {
 */
 
 // ---------- SOCKET TEST ----------
-/*
 router.get('/share/:id', function(req, res) {
-  var str= [];
+  // var str= [];
   var dbret= req.dbret;
   var names= [].map.call(dbret, function(obj) {
     return obj.name;
   });
-  var route= [].map.call(dbret, function(obj) {
-    str.push(obj.addr);
-    return {location: obj.addr, stopover: true};
-  });
-  var infoHold= [];
-  function rend(infoHold) {
-    return res.render('test', {
-      title: 'Chicago Brewery Tour Planner',
-      order: infoHold,
-      pageid: req.id
-    });
-  } 
-  for(var j= 0; j< names.length; j++) {
-    db.find(db.Brewery, {name: names[j]}, function(dbres) {
-      infoHold.push(dbres[0]);
-      if(infoHold.length== names.length)
-        rend(infoHold);
-    });
-  }
-  //Get distance matrix
-  io.on('connection', function (socket) { //may want to move this if using in multiple places
-    getDistMat(route, str.join('|'), socket);
-  });
-  //End distance matrix
-});
-*/
-// ---------- PIPE TEST ----------
-router.get('/share/:id', function(req, res) {
-  var str= [];
-  var dbret= req.dbret;
-  var names= [].map.call(dbret, function(obj) {
-    return obj.name;
-  });
-  var route= [].map.call(dbret, function(obj) {
-    str.push(obj.addr);
-    return {location: obj.addr, stopover: true};
-  });  
+  io.paneRender(res, names);//Calling this as soon as possible to get all calls done ASAP
+  // var route= [].map.call(dbret, function(obj) {
+  //   str.push(obj.addr);
+  //   return {location: obj.addr, stopover: true};
+  // });  
   db.find(db.Brewery, {name: names[0]}, function(dbres) {
-    io.getDistMat(route, str.join('|'));
-    io.paneRender(res, names);
     return res.render('test2', {
       title: 'Chicago Brewery Tour Planner',
       order: dbres[0],
@@ -125,9 +99,6 @@ router.get('/share/:id', function(req, res) {
     });
   });
 });
-
-// ---------- END PIPE TEST ----------
-
 // ---------- END SOCKET TEST ----------
 /*
 router.get('/dist/:id', function(req, res) {//This is really dirty and I don't like doing it this way

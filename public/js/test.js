@@ -18,7 +18,7 @@ $(function() {
   initialize(); //initialize google maps
   // ---------- END MAP ----------
   var tester= {
-    socket: io.connect(location.origin.replace(/^http/, 'ws'), {secure: true}),
+    socket: io.connect(location.origin.replace(/^http/, 'ws'), {secure: true}),//so that it works with heroku
     init: function() {
       var self= this;
       self.sockets();
@@ -32,7 +32,6 @@ $(function() {
         var s= [ac.data('lat'), ac.data('lng')];
         var e= [ac.next().data('lat'), ac.next().data('lng')];
         if(curr.data('mode')== "driving"&& !curr.data('uber')) {
-          console.log("in if"); //Might need multiple other maps to show directions in panes
           $(window).scrollTop($('#map-canvas').position().top);
           $('#directionsHeader').show();
           $('#directions').slideDown(300);
@@ -41,14 +40,12 @@ $(function() {
         }
         //Show directions if `driving` selected
         else if(curr.data('mode')== "driving"&& curr.data('uber')) {
-          console.log("in else if");
           $.get('/uber', {startCo: s, endCo: e}, function(data) {
             $(ac).prepend(data);
           });// Allow Uber app to be launched from here?
           $('.tab-pane.active').children().not('.nextStep').hide();
         }//Have another `else if` that launches if Divvy is selected
         else {
-          console.log("in else");
           e.preventDefault();
           $('#tourNav .active').next().find('a').tab('show');
         }
@@ -58,6 +55,19 @@ $(function() {
         '&dropoff_latitude='+$('#tourWalk .tab-pane.active').next().data('lat')+'&dropoff_longitude='+$('#tourWalk .tab-pane.active').next().data('lng'); //add more to this if needed
         window.open('https://m.uber.com/sign-up?client_id=q7EfkpqdZ0oenw8hpI2U9kuEzoZ5lA-t'+urlpart, '_blank');
         $('#tourNav .active').next().find('a').tab('show');
+      });
+      $('body').on('click', '#directionToggle', function() { //Slides directions panel up and down
+        if($('#directions').is(':visible')) {
+          $('#directions').slideUp(300);
+          $(this).text('Show Directions');
+          $(this).siblings('span').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+        }
+        else {
+          $('#directions').slideDown(300);
+          $(this).text('Hide Directions');
+          $(this).siblings('span').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+        }
+        return false;
       });
     },
     loadMap: function() {

@@ -1,3 +1,9 @@
+mixin norate(bs)
+  if (bs== 0.00)
+    |  No Rating Found
+  else
+    |  Average Rating #{bs}
+
 div.row
   for beer, ind in val.locbeers
     if (ind%3== 0)&& ind!= 0
@@ -5,4 +11,5 @@ div.row
     div.col-md-4
       article
         h4= beer.name
-        p Style: #{beer.style} | Average Rating: #{beer.score.toFixed(2)}
+        p Style: #{beer.style} |
+          +norate(beer.score.toFixed(2))
