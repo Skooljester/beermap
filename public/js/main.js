@@ -13,7 +13,6 @@ $(function() {
       center: new google.maps.LatLng(41.850033, -87.6500523)
     };
     map= new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-    
     $('.brewery').each(function() { //Drop marker for each brewery
       var ll= new google.maps.LatLng($(this).find('header h1').data('lat'), $(this).find('header h1').data('lng'));
       var brewMarker= new google.maps.Marker({
@@ -113,6 +112,7 @@ $(function() {
         }
       });
       // ----- SEARCH STUFF BINDING -----
+      //The sorting of tiles gets messed up because they don't flow
       function bgSwap(t) {
         t.parent().addClass('bg-primary').siblings('li').removeClass('bg-primary');
         $('.bdbText').text(t.data('active-text')+' ');

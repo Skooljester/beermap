@@ -38,6 +38,7 @@ var shareSchema= mongoose.Schema({
     }
   ]
 });
+
 // ----- END SCHEMAS -----
 
 var Brewery= mongoose.model('Brewery', brewSchema);
@@ -47,6 +48,10 @@ var Share= mongoose.model('Share', shareSchema);
 module.exports.Brewery= Brewery;
 module.exports.Share= Share;
 // ----- END SCHEMA EXPORTS -----
+
+// ----- RANDOM TESTS -----
+
+// ----- END RANDOM TESTS -----
 
 // ----- START FUNCTION EXPORTS -----
 module.exports.getAll= function(cb){ //only returns breweries
@@ -63,9 +68,7 @@ module.exports.dbsave= function(obj, cb) {
 };
 module.exports.find = function(schemaName, findData, callback) {
   schemaName.find(findData, function(err, results) {
-    if(err) {
-      return console.log(err);
-    }
+    if(err) return console.log(err);
     callback(results);
   });
 };

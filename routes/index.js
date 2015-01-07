@@ -80,7 +80,6 @@ router.get('/share/:id', function(req, res) {
 
 // ---------- SOCKET TEST ----------
 router.get('/share/:id', function(req, res) {
-  console.log("in share");
   var dbret= req.dbret;
   var names= [].map.call(dbret, function(obj) {
     return obj.name;
@@ -181,24 +180,6 @@ router.get('/uber', function(req, res) { //hits Uber API to get prices from one 
       res.render('_uberList', {ubl: body.prices}, function(err, html) {
         res.send(html);
       });
-    }
-  });
-});
-
-router.get('/untappd', function(req, res) {
-  var utcid= '4149526DC899177640B7E25BBB0D40D8A7F32E48';
-  var utcs= 'E0B8914BF88C67A8645643B978BE65235BED4686';
-  var holdarr= [];
-  request({url: 'https://api.untappd.com/v4/venue/info/'+brewSchema[8].utvid+'?client_id='+utcid+'&client_secret='+utcs, json: true}, function (error, response, body) {
-    if(!error&& response.statusCode== 200) {
-      console.log(body.response.venue.top_beers);
-      res.send(body);
-      var tb= body.response.venue.top_beers;
-      for(var i= 0; i< tb.count; i++) {
-        var tbi= tb.items[i].beer;
-        holdarr.push({bid: tbi.bid, name: tbi.beer_name, style: tbi.beer_style, score: tbi.rating_score});
-      }
-      console.log(holdarr);
     }
   });
 });

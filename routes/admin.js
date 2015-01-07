@@ -1,15 +1,19 @@
 var express= require('express');
 var request= require('request');
 var db= require('../db/dbmain');
+var moment= require('moment');
 var CronJob= require('cron').CronJob;
 var router = express.Router();
+
+var updated= null;
 
 /* GET admin listing. */
 router.get('/', function(req, res) {
   db.getAll(function(breweries) {
     return res.render('admin', {
       title: 'Admin Dashboard',
-      breweries: breweries
+      breweries: breweries,
+      updated: updated
     });
   });
 });
@@ -23,7 +27,7 @@ router.post('/addBrew', function(req, res) {
     db.dbsave(brewery, function() {
       console.log("saved");
       res.send("Added");
-    })
+    });
   });
 });
 
@@ -60,16 +64,18 @@ router.get('/forceUpdate', function(req, res) {
   var beerList;
   db.getAll(function(breweries) {
     beerList= breweries;
-    updInc(ui);
+    forceUpd(ui);
   });
-  function updInc(inc) {
+  function forceUpd(inc) {
     findLocBeers(beerList[ui].utvid, function(holdarr) {
       db.upd(db.Brewery, {utvid: beerList[ui].utvid}, {locbeers: holdarr}, function() { //just going to pray this works
         ui+= 1;
         if(ui< beerList.length)
-          updInc(ui);
-        else
+          forceUpd(ui);
+        else {
+          updated= moment().format('MM/DD/YYYY HH:mm');
           return res.send("complete");
+        }
       });
     });
   }
@@ -105,15 +111,19 @@ function cronFunc() {
   function updInc(inc) {
     findLocBeers(cronBeerList[inc].utvid, function(holdarr) {
       db.upd(db.Brewery, {utvid: cronBeerList[inc].utvid}, {locbeers: holdarr}, function() {
-        console.log("brewery beer list updated");
+        return console.log("brewery beer list updated");
       });
     });
   }
 }
 new CronJob('0 0 * * * *', function(){//runs every hour at 0m 0s
   cronFunc();
-}, null, true, "America/Los_Angeles");
+}, function() {//called once job is done
+  updated= moment().format('MM/DD/YYYY HH:mm');
+  console.log("cron job finished");
+}, false, "America/Los_Angeles");
 // ----- END CRON -----
+
 /*
 var beerSchema= mongoose.Schema({
   bid: {

@@ -21,6 +21,10 @@ block content
   ul.list-group
     li.list-group-item
       button(type="button", data-loading-text="Syncing...").btn.btn-warning#forceSync Force Beer Resync - This takes a while, don't use lightly
+      if (updated== null)
+        p Not updated yet
+      else
+        p Beer List last updated at: #{updated}
     li.list-group-item
       h2 Add Brewery
       form#addBrewForm
