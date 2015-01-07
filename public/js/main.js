@@ -112,6 +112,11 @@ $(function() {
           markers[i].setMap(null);
         }
       });
+      // ----- SEARCH STUFF BINDING -----
+      function bgSwap(t) {
+        t.parent().addClass('bg-primary').siblings('li').removeClass('bg-primary');
+        $('.bdbText').text(t.data('active-text')+' ');
+      }
       $('#brewSearch').on('keyup', function() { //Search function, not very robust
         var sval= $(this).val().toLowerCase();
         if($(this).val().length>= 3) {
@@ -123,6 +128,33 @@ $(function() {
         else
           $('.brewery').parent().fadeIn(300);
       });
+      $('#textSearch').on('click', function(e) {
+        e.preventDefault();
+        bgSwap($(this));
+        $('.brewery').parent().fadeIn(300);
+      });
+      $('#showNearby').on('click', function(e) {
+        e.preventDefault();
+        bgSwap($(this));
+        var llb= map.getBounds();
+        $('.brewery').each(function() {
+          if(!llb.contains(new google.maps.LatLng($(this).find('header h1').data('lat'), $(this).find('header h1').data('lng'))))  
+            $(this).parent().fadeOut(300);
+          else {
+            if($(this).parent().is(':not(visible)'))
+              $(this).parent().fadeIn(300);
+          }
+        });
+      });
+      $('#showAllBrew').on('click', function(e) {
+        e.preventDefault();
+        $('#brewSearch').val('');
+        $('.brewery').parent().fadeIn(300);
+        $('.bdbText').text('Search For Breweries ');
+        $(this).parent().siblings('li').removeClass('bg-primary');
+        $('#textSearch').parent().addClass('bg-primary');
+      });
+      // ----- END SEARCH BINDING -----
       $('body').on('click', '.markerAdd', function() { //Add brewery to list from within map marker
         var hold= $(this);
         $('.brewery').each(function() {

@@ -71,18 +71,14 @@ module.exports.find = function(schemaName, findData, callback) {
 };
 module.exports.upd= function(schemaName, findData, updateData, callback) {
   schemaName.update(findData, updateData, function(err, aff) {
-    if(err) {
-      return console.log(err);
-    }
+    if(err) return console.log(err);
     console.log('affected rows %d', aff);
     callback();
   });
 };
 module.exports.del = function(schemaName, findData, callback) {
   schemaName.remove(findData, function(err) {
-    if(err) {
-      return console.log(err);
-    }
+    if(err) return console.log(err);
     callback();
   })
 };

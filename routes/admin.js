@@ -1,6 +1,7 @@
 var express= require('express');
 var request= require('request');
 var db= require('../db/dbmain');
+var CronJob= require('cron').CronJob;
 var router = express.Router();
 
 /* GET admin listing. */
@@ -91,6 +92,28 @@ function findLocBeers(vid, cb) {
     }
   });
 }
+
+// ----- CRON STUFF -----
+//Updates beer list hourly. May need to change if they beer popular beers list does not change that often
+function cronFunc() {
+  var cronBeerList;
+  db.getAll(function(breweries) {
+    cronBeerList= breweries;
+    for(var c= 0; c< cronBeerList.length; c++)
+      updInc(c);
+  });
+  function updInc(inc) {
+    findLocBeers(cronBeerList[inc].utvid, function(holdarr) {
+      db.upd(db.Brewery, {utvid: cronBeerList[inc].utvid}, {locbeers: holdarr}, function() {
+        console.log("brewery beer list updated");
+      });
+    });
+  }
+}
+new CronJob('0 0 * * * *', function(){//runs every hour at 0m 0s
+  cronFunc();
+}, null, true, "America/Los_Angeles");
+// ----- END CRON -----
 /*
 var beerSchema= mongoose.Schema({
   bid: {

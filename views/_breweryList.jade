@@ -6,15 +6,27 @@ mixin breweryTile(b, index)
     div.details.panel-body
       p= b.address
       a(href="tel:#{b.phone}")= b.phone
-      if b.menu
-        //-a(href="#{b.menu}") Menu
 
 section.breweryList
   header.mainBrewHeader
     h1 Breweries
-    div.input-group
+    //-div.input-group
       span.input-group-addon Search for Breweries
       input(type="text", class="form-control", placeholder="Search for a location")#brewSearch
+    div.input-group
+      div.input-group-btn
+        button(type="button", data-toggle="dropdown", aria-expanded="false")#brewDropButton.btn.btn-default.dropdown-toggle
+          span.bdbText Search for Breweries 
+          span.caret
+        ul(role="menu")#brewDropdown.dropdown-menu
+          li.bg-primary
+            a(href="#", data-active-text="Search For Breweries")#textSearch Search By Text
+          li
+            a(href="#", data-active-text="Showing Nearby Breweries")#showNearby Show Nearby
+          li.divider
+          li
+            a(href="#")#showAllBrew Show All
+      input(type="text")#brewSearch.form-control 
   div.row
     each b, index in breweries
       div.col-md-6
