@@ -172,7 +172,7 @@ router.get('/launch', function(req, res) { //renders out the template for launch
 });
 
 router.get('/uber', function(req, res) { //hits Uber API to get prices from one location to another
-  var ukey= '3hqL2q4aQR2zqCftvN6AhH0WxFgk3oqCWeBAPzzb'
+  var ukey= '3hqL2q4aQR2zqCftvN6AhH0WxFgk3oqCWeBAPzzb';
   var s= req.query.startCo;
   var e= req.query.endCo;
   request({url: 'https://api.uber.com/v1/estimates/price?server_token='+ukey+'&start_latitude='+s[0]+'&start_longitude='+s[1]+'&end_latitude='+e[0]+'&end_longitude='+e[1], json: true}, function (error, response, body) {

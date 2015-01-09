@@ -111,17 +111,15 @@ function cronFunc() {
   function updInc(inc) {
     findLocBeers(cronBeerList[inc].utvid, function(holdarr) {
       db.upd(db.Brewery, {utvid: cronBeerList[inc].utvid}, {locbeers: holdarr}, function() {
+        updated= moment().format('MM/DD/YYYY HH:mm');
         return console.log("brewery beer list updated");
       });
     });
   }
 }
 new CronJob('0 0 * * * *', function(){//runs every hour at 0m 0s
-  cronFunc();
-}, function() {//called once job is done
-  updated= moment().format('MM/DD/YYYY HH:mm');
-  console.log("cron job finished");
-}, false, "America/Los_Angeles");
+  cronFunc(); //Doesn't seem to be working right now
+}, null, true, "America/Los_Angeles");
 // ----- END CRON -----
 
 /*
