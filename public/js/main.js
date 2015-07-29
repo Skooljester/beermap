@@ -41,7 +41,7 @@ $(function() {
   // --- Current location stuff
   navigator.geolocation.getCurrentPosition(showPosition); //Not really doing anything with user loc atm
   function showPosition(position) { //Center map on current position
-    currLoc= new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
+    currLoc= new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
     var marker = new google.maps.Marker({
       position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
       map: map,
@@ -210,7 +210,7 @@ $(function() {
       });
       // END FIRST STAGE BINDING
       // SECOND STAGE
-      $('body').on('click', '#tourWalk .tab-pane.active .nextStep', function(e) { //Moves through steps of tour
+      $('body').on('click', '#tourWalk .tab-pane.active .nextStep', function(event) { //Moves through steps of tour
         //Do uber call if `uber` selected
         var curr= $('#transportSelect .active');
         var ac= $('#tourWalk .tab-pane.active');
@@ -234,7 +234,7 @@ $(function() {
         }//Have another `else if` that launches if Divvy is selected
         else {
           console.log("in else");
-          e.preventDefault();
+          event.preventDefault();
           $('#tourNav .active').next().find('a').tab('show');
         }
       });

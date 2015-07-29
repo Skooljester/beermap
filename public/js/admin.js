@@ -90,7 +90,7 @@ $(function() {
             updObj[$(this).parent().attr('class')]= $(this).val();
         });
         for(var key in updObj) {
-          if(updObj[key]== null)
+          if(updObj[key]=== null)
             delete updObj[key];
         }
         t.button('loading');

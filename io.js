@@ -7,7 +7,7 @@ function getSocket() {//maybe use a promise library here instead?
   return socket;
 }
 function setSocket(sock) {
-  if (undefined== socket)
+  if (undefined=== socket)
     return socket= sock;
 }
 var gdmdef; //Don't know how this will work with multiple users connected, we shall see

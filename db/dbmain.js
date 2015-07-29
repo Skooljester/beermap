@@ -83,7 +83,7 @@ module.exports.del = function(schemaName, findData, callback) {
   schemaName.remove(findData, function(err) {
     if(err) return console.log(err);
     callback();
-  })
+  });
 };
 module.exports.create = function(schemaName, createData, callback) {
   var sub = new schemaName(createData);

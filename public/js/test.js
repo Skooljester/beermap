@@ -25,7 +25,7 @@ $(function() {
       self.binding();
     },
     binding: function() {
-      $('body').on('click', '#tourWalk .tab-pane.active .nextStep', function(e) { //Moves through steps of tour
+      $('body').on('click', '#tourWalk .tab-pane.active .nextStep', function(event) { //Moves through steps of tour
         //Do uber call if `uber` selected
         var curr= $('#transportSelect .active');
         var ac= $('#tourWalk .tab-pane.active');
@@ -46,7 +46,7 @@ $(function() {
           $('.tab-pane.active').children().not('.nextStep').hide();
         }//Have another `else if` that launches if Divvy is selected
         else {
-          e.preventDefault();
+          event.preventDefault();
           $('#tourNav .active').next().find('a').tab('show');
         }
       });
